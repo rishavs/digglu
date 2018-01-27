@@ -1,4 +1,5 @@
 import LogoURL from '../../img/logo.png';
+import backend from "./../services/backend.js";
 
 const m = require("mithril")
 
@@ -15,12 +16,17 @@ export default {
 
         			<div class='navbar-menu'>
         				<div class='navbar-start'>
+                            <a href="/about" class="navbar-item" oncreate={m.route.link}> About</a>
+                            { !firebase.auth().currentUser
+                            ?
+                            <a href="/login" class="navbar-item" oncreate={m.route.link}> Login</a>
+                            :
+                            <a href="/logout" class="navbar-item" oncreate={m.route.link}> Logout</a>
+                            }
         				</div>
 
         				<div class='navbar-end'>
-        					<a href="/about" class="navbar-item" oncreate={m.route.link}> About</a>
-        					<a href="/login" class="navbar-item" oncreate={m.route.link}> Login</a>
-        					<a href="/logout" class="navbar-item" oncreate={m.route.link}> Logout</a>
+
         				</div>
 
         			</div>

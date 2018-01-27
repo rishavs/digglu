@@ -17,7 +17,7 @@ const Home = {
     
     view: ({state}) => {
     	return (
-			<div class="columns is-0 ">
+			<div class="columns is-0 pageEntry">
                 { 
                 state.data.length === 0
                 ?
@@ -33,20 +33,3 @@ const Home = {
 };
 
 export default Home;
-
-
-        // m("article", [
-        //     m("h1", "HOME"),
-        //     m("h2", "Posts: "),
-        //     m("ul", [
-                // state.data.length === 0
-                // ?
-                // "Loading..."
-                // :
-                // state.data.map(post =>
-        //             m("li", { key: post.id }, [
-        //                 m("a", { href: '/' + post.id,  oncreate: m.route.link }, post.title)
-        //             ])
-        //         )
-        //     ])
-        // ])

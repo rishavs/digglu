@@ -11,9 +11,10 @@ const actions ={
     setUname: (v) => {state.uname = v},
     setPass: (v) => {state.pass = v},
 
-    handleSubmit : () => {
+    handleSubmit : async () => {
         console.log("Attempting to log in...")
-        backend.login(state.uname, state.pass)
+        await backend.login(state.uname, state.pass)
+        m.route.set("/")
     },
 }
 
@@ -22,7 +23,7 @@ const Login = {
 	view: () => {
 		return (
 
-			<div class="columns is-centered">
+			<div class="columns is-centered pageEntry">
               	<article class="card is-rounded">
                 	<div class="card-content">
                 		<form >
@@ -32,7 +33,7 @@ const Login = {
 	                    		<i class="fa fa-envelope"></i>
 	                  		</p>
 	                  		<p class="control has-icon">
-	                    		<input class="input" type="password" placeholder="Password" oninput= {m.withAttr("value", actions.setPass)} value= {state.pass} />
+	                    		<input class="input" type="password" placeholder="Password" autocomplete="on" oninput= {m.withAttr("value", actions.setPass)} value= {state.pass} />
 	                    		<i class="fa fa-lock"></i>
 	                  		</p>
 	                  		<p class="control">

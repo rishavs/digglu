@@ -5,6 +5,7 @@ import Layout from './components/Layout'
 import Home from './pages/Home'
 import About from './pages/About'
 import Login from './pages/Login'
+import Logout from './pages/Logout'
 import PostRead from './pages/PostRead'
 
 
@@ -19,6 +20,9 @@ m.route(document.body, '/', {
     },
     '/login' : {
         render: () => m(Layout, m(Login))
+    },
+    '/logout' : {
+        render: () => m(Layout, m(Logout))
     },
     '/:id': {
         render: () => m(Layout, m(PostRead))

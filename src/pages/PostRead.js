@@ -15,7 +15,7 @@ const PostRead = {
     },
     
     view: ({state}) => 
-        m("article", [
+        m("article", {class:"pageEntry"}, [
             m("h1", "Post Details"),
             m("p", [
                 !state.data.id
