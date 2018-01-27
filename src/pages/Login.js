@@ -1,4 +1,6 @@
 const m = require("mithril")
+import 'nprogress/nprogress.css'
+import NProgress from 'nprogress'
 
 import backend from "./../services/backend.js";
 
@@ -12,13 +14,19 @@ const actions ={
     setPass: (v) => {state.pass = v},
 
     handleSubmit : async () => {
+    	NProgress.start();
         console.log("Attempting to log in...")
         await backend.login(state.uname, state.pass)
         m.route.set("/")
+        NProgress.done();
     },
 }
 
 const Login = {
+    oninit: () => {
+        NProgress.start();
+        NProgress.done();
+    },
 
 	view: () => {
 		return (

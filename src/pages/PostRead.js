@@ -1,4 +1,6 @@
 const m = require("mithril")
+import 'nprogress/nprogress.css'
+import NProgress from 'nprogress'
 
 import backend from "./../services/backend.js";
 
@@ -6,12 +8,14 @@ const PostRead = {
     data: {},
     
     oninit: async ({state}) => {
-      Object.assign(state, {
-        data: await backend.get_current_post(m.route.param().id),
-        }
-      )
-      console.log(state.data)
-      m.redraw()
+        NProgress.start();
+        Object.assign(state, {
+            data: await backend.get_current_post(m.route.param().id),
+            }
+        )
+        console.log(state.data)
+        m.redraw()
+        NProgress.done();
     },
     
     view: ({state}) => 

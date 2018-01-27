@@ -1,18 +1,23 @@
 const m = require("mithril")
+import 'nprogress/nprogress.css'
+import NProgress from 'nprogress'
 
 import Card from './../components/Card'
 
 import backend from "./../services/backend.js";
 
+
+
 const Home = {
     data: [],
     
     oninit: async ({state}) => {
-      Object.assign(state, {
-        data: await backend.get_all_posts(),
-      })
-      
-      m.redraw()
+        NProgress.start();
+        Object.assign(state, {
+            data: await backend.get_all_posts(),
+        })
+        m.redraw()
+        NProgress.done();
     },
     
     view: ({state}) => {
