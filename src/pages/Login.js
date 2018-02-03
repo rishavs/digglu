@@ -36,26 +36,36 @@ const Login = {
                 	<div class="card-content">
                 		<form >
 	                  		<h1 class="title">Login</h1>
-	                  		<p class="control has-icon">
-	                    		<input class="input" type="email" placeholder="Email" autocomplete="on" oninput= {m.withAttr("value", actions.setUname)} value= {state.uname}/>
-	                    		<i class="fa fa-envelope"></i>
-	                  		</p>
-	                  		<p class="control has-icon">
-	                    		<input class="input" type="password" placeholder="Password" autocomplete="on" oninput= {m.withAttr("value", actions.setPass)} value= {state.pass} />
-	                    		<i class="fa fa-lock"></i>
-	                  		</p>
-	                  		<p class="control">
-	                    		<label class="checkbox">
-	                      			<input type="checkbox" />
-	                      			Remember me
-	                    		</label>
-	                  		</p>
-	                  		<p class="control">
-	                    		<button type="submit" class="button is-primary is-medium is-fullwidth" onclick={actions.handleSubmit}>
+          		            <div class="field">
+				                <label class="label">Email</label>
+				                <div class="control has-icons-left has-icons-right">
+				                    <input class="input is-danger" type="email" placeholder="Email" autocomplete="on" oninput= {m.withAttr("value", actions.setUname)} value= {state.uname}/>
+				                    <span class="icon is-small is-left">
+				                      <i class="fa fa-envelope"></i>
+				                    </span>
+				                    <span class="icon is-small is-right">
+				                      <i class="fa fa-exclamation-triangle"></i>
+				                    </span>
+				                </div>
+				                <p class="help is-danger">This email is invalid</p>
+				            </div>
+
+	                        <div class="field">
+				                <label class="label">Password</label>
+				                <div class="control">
+				                    <input class="input" type="password" placeholder="Password" autocomplete="on" oninput= {m.withAttr("value", actions.setPass)} value= {state.pass} />
+				                </div>
+				            </div>
+
+            				<div class="field">
+                				<div class="control">
+            	             		<button type="submit" class="button is-primary is-medium is-fullwidth" onclick={actions.handleSubmit}>
 	                      			<i class="fa fa-user"></i>
 	                      			Login
-	                    		</button>
-	              			</p>
+	                    			</button>
+                				</div>
+				           </div>
+
               			</form>
                 	</div>
               	</article>

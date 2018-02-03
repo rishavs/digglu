@@ -15,16 +15,18 @@ export default {
         			</div>
 
         			<div class='navbar-menu'>
-        				<div class='navbar-start'>
-                            <a href="/about" class="navbar-item" oncreate={m.route.link}> About</a>
-                            { !firebase.auth().currentUser
-                            ?
-                            <a href="/login" class="navbar-item" oncreate={m.route.link}> Login</a>
+                        <a href="/about" class="navbar-item" oncreate={m.route.link}> About</a>
+                            { 
+                            !firebase.auth().currentUser ?
+                            <div class='navbar-start'>
+                                <a href="/login" class="navbar-item" oncreate={m.route.link}> Login</a>
+                            </div>
                             :
-                            <a href="/logout" class="navbar-item" oncreate={m.route.link}> Logout</a>
+                            <div class='navbar-start'>
+                                <a href="/new" class="navbar-item" oncreate={m.route.link}> New Post</a>
+                                <a href="/logout" class="navbar-item" oncreate={m.route.link}> Logout</a>
+                            </div>
                             }
-        				</div>
-
         				<div class='navbar-end'>
 
         				</div>

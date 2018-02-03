@@ -22,6 +22,18 @@ var backend = {
             console.log('Error getting documents', err)
         }
     },
+    add_new_post: async(post) => {
+    	console.log('Saving post as user: ' + post.author)
+    	try {
+    		post.thumb = await backend.get_thumbnail(post.link)
+        	const postRef = firebase.firestore().collection('posts')
+        	const response = await postRef.add(post)
+        	console.log("Document written with ID: ", response.id);
+        	return response.id
+    	} catch (err) {
+            console.log('Error getting documents', err)
+        }
+    },
 
     get_current_post: async (id) => {
         console.log('Getting post ' + id)
@@ -35,6 +47,20 @@ var backend = {
         }
     },
     
+    get_thumbnail: async (url) => {
+        console.log('Getting thumbnail for url ' + url)
+	    try {
+		    const response = await fetch("http://api.proc.link/oembed?url=" + url)
+		    const json = await response.json();
+
+	        console.log("Received thumbnail:", json.thumbnail_url)
+    		return json.thumbnail_url
+	    }
+	    catch (err) {
+	        console.log('Error getting documents', err);
+	    }
+    },
+
     login: async (email, pass) => {
         try {
             await firebase.auth().signInWithEmailAndPassword(email, pass);
