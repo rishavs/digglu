@@ -1,17 +1,30 @@
 const m = require("mithril")
-import 'nprogress/nprogress.css'
-import NProgress from 'nprogress'
 
 import Navbar from './Navbar'
+import Sidebar from './Sidebar'
 
 const Layout = {
     view: (vnode) =>  {
         return (
         	<main>
             	<Navbar />
-	        	<div class='container is-fluid'>
-	        	  <section class="section">{vnode.children}</section>
-            	</div>
+	        	  <section class="section">                  
+                    <div class="columns">
+
+                        <div class="column is-2">
+                            <Sidebar />
+                        </div>
+
+                        <div class="column is-10">
+                            <section class="section">
+                                {vnode.children}
+                            </section>
+                        </div>
+                        
+                    </div>
+
+
+                  </section>
             </main>
         )
     }

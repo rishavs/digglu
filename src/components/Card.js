@@ -3,7 +3,7 @@ const m = require("mithril")
 const Card = {
     view: (vnode) => {
         return (
-            <div class="column is-3">
+            <div class="column is-one-fifth">
                 <div class="card">
                     <div class="card-image">
                       <figure class="image is-4by3">
