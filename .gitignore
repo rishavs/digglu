@@ -19,6 +19,7 @@ $RECYCLE.BIN/
 .cache/
 node_modules/
 dist/
+bin/
 # =========================
 # Operating System Files
 # =========================

@@ -25,9 +25,9 @@ const PostRead = {
         :
             <div> 
                 <h1> Post Details for : {state.data.id} </h1>
-                <h1> author : {state.data.author} </h1>
-                <h3> title : {state.data.title} </h3>
-                <h3> content : {state.data.content} </h3>
+                <h1> author :           {state.data.author} </h1>
+                <h3> title :            {state.data.title} </h3>
+                <h3> content :          {state.data.content} </h3>
                 <div class="control">
                     
                     <a href={'/' + m.route.param().id + '/edit'} oncreate={m.route.link}> Edit</a>

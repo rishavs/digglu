@@ -5,7 +5,7 @@ var backend = {
         try {
             const ref = firebase.firestore().collection('posts')
             const response = await ref.get()
-            const items = []
+            let items = []
             response.forEach((doc) => {
                 const item = {
                     'id': doc.id,
@@ -42,6 +42,25 @@ var backend = {
             const response = await ref.get()
             console.log('Document data:', response.data())
             return response.data()
+        } catch (err) {
+            console.log('Error getting documents', err)
+        }
+    },
+
+    get_all_tags: async () => {
+        console.log('Getting all tags... ')
+        let items = []
+        try {
+            const ref = firebase.firestore().collection('tags')
+            const response = await ref.get()
+            // console.log(response)
+
+            response.forEach((doc) => {
+                items.push(doc.id)
+            })
+            console.log('Fetched ' + items.length + ' tags')
+            // console.log(items)
+            return items
         } catch (err) {
             console.log('Error getting documents', err)
         }

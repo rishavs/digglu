@@ -7,8 +7,7 @@ const About = {
         NProgress.start();
         NProgress.done();
     },
-    view: () => {
-        return (
+    view: () => 
 
         <main class="pageEntry">
             <h1>Hello world</h1>
@@ -20,8 +19,7 @@ const About = {
             <h1>Hello world</h1>
             <h1>Hello world</h1>
         </main>
-        )
-    }
+
 }
 
 export default About;
