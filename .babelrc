@@ -3,6 +3,10 @@
     "plugins": [
         ["transform-react-jsx", {
             "pragma": "m"
-        }]
+        }],
+        ["transform-runtime", {
+            "polyfill": false,
+            "regenerator": true
+          }]
     ]
 }
