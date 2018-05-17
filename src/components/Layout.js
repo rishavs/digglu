@@ -8,23 +8,9 @@ const Layout = {
         return (
         	<main>
             	<Navbar />
-	        	  <section class="section">                  
-                    <div class="columns">
 
-                        <div class="column is-2">
-                            <Sidebar />
-                        </div>
+                {vnode.children}
 
-                        <div class="column is-10">
-                            <section class="section">
-                                {vnode.children}
-                            </section>
-                        </div>
-                        
-                    </div>
-
-
-                  </section>
             </main>
         )
     }

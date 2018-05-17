@@ -22,11 +22,17 @@ const Home = {
     
     view: ({state}) => {
     	return (
-            <div class="columns is-multiline is-variable is-1 ">
-                {state.data.length === 0
-                    ? "Loading..."
-                    : state.data.map(post => <Card post={post} />)}
-            </div>
+            <article>
+                <section class="section">
+                <section class="section">
+                    <div class="columns is-multiline is-variable is-1 ">
+                        {state.data.length === 0
+                            ? "Loading..."
+                            : state.data.map(post => <Card post={post} />)}
+                    </div>
+                </section>
+                </section>
+            </article>
     	)
 	}
 
