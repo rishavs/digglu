@@ -22,16 +22,26 @@ const Home = {
     
     view: ({state}) => {
     	return (
-            <article>
-                <section class="section">
-                <section class="section">
-                    <div class="columns is-multiline is-variable is-1 ">
-                        {state.data.length === 0
-                            ? "Loading..."
-                            : state.data.map(post => <Card post={post} />)}
+
+
+            <article class="ui container">
+                <br/>
+
+                {
+                    state.data.length === 0 
+                
+                ?
+                    <div class="main">
+                        <h2> Loading.... </h2>
                     </div>
-                </section>
-                </section>
+                :
+                
+                    <div class="main">
+                        <div class="ui five doubling cards">
+                        {state.data.map(post => <Card post={post} />)}
+                        </div>
+                    </div>
+                }
             </article>
     	)
 	}

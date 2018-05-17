@@ -1,4 +1,4 @@
-import LogoURL from '../../img/logo14.png';
+import LogoURL from '../../img/logo.png';
 import backend from "./../services/backend.js";
 
 const m = require("mithril")
@@ -11,7 +11,6 @@ export default {
 				<div class="ui container">
 					<a href="/" class="header item" oncreate={m.route.link}>
 						<img class="logo" src={LogoURL} />
-						Home
         			</a>
 					<div class=" menu" style="width: 100%;">
 						<div class="ui item" style="width: 100%;">
@@ -32,7 +31,6 @@ export default {
 							<a href="/login" class="ui blue button" oncreate={m.route.link}>Login</a>
 						</div>
 						:
-
 						<div class="right menu">
 
 							<div class="ui simple dropdown item">

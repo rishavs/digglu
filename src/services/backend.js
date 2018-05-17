@@ -12,7 +12,8 @@ var backend = {
                     'title': doc.data().title,
                     'content': doc.data().content,
                     'author': doc.data().author,
-                    'thumb': doc.data().thumb
+                    'thumb': doc.data().thumb,
+                    'link': doc.data().link
                 }
                 items.push(item)
             })
