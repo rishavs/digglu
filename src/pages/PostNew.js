@@ -77,35 +77,35 @@ const PostNew = {
     },
 
     view: () =>
-        <article class="pageEntry">
-            <form>
+        <div class="ui main container">
+            <form class="ui form">
                 <div class="field">
                     <label class="label">Title</label>
-                    <div class="control">
+
                         <input
                             class="input"
                             type="text"
                             placeholder="Title"
                             oninput={m.withAttr("value", actions.setPostTitle)}
                         />
-                    </div>
+
                 </div>
 
                 <div class="field">
                     <label class="label">Link</label>
-                    <div class="control">
+
                         <input
                             class="input"
                             type="text"
                             placeholder="Link"
                             oninput={m.withAttr("value", actions.setPostLink)}
                         />
-                    </div>
+
                 </div>
 
                 <div class="field">
                     <label class="label">Tags</label>
-                    <div class="control">
+
                         <input
                             class="input"
                             type="text"
@@ -115,7 +115,7 @@ const PostNew = {
                             )}
                             value={tagInput}
                         />
-                    </div>
+
                     <div
                         class={
                             "dropdown " +
@@ -168,7 +168,7 @@ const PostNew = {
 
                 <div class="field">
                     <label class="label">Content</label>
-                    <div class="control">
+
                         <textarea
                             class="textarea"
                             placeholder="Content"
@@ -177,24 +177,11 @@ const PostNew = {
                                 actions.setPostContent
                             )}
                         />
-                    </div>
-                </div>
 
-                <div class="field is-grouped">
-                    <div class="control">
-                        <button
-                            class="button is-primary"
-                            onclick={actions.handleSubmit}
-                        >
-                            Submit
-                        </button>
-                    </div>
-                    <div class="control">
-                        <button class="button is-text">Cancel</button>
-                    </div>
                 </div>
+                <button class="ui button"  onclick={actions.handleSubmit}>Submit</button>
             </form>
-        </article>
+        </div>
 };
 
 export default PostNew;

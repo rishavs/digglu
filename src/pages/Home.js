@@ -24,8 +24,7 @@ const Home = {
     	return (
 
 
-            <article class="ui container">
-                <br/>
+            <div class="ui main container pageEntry">
 
                 {
                     state.data.length === 0 
@@ -42,7 +41,7 @@ const Home = {
                         </div>
                     </div>
                 }
-            </article>
+            </div>
     	)
 	}
 

@@ -7,7 +7,7 @@ export default {
 	view: () => {
 		return (
 
-			<div class="ui menu">
+			<div class="ui fixed menu">
 				<div class="ui container">
 					<a href="/" class="header item" oncreate={m.route.link}>
 						<img class="logo" src={LogoURL} />
@@ -32,7 +32,9 @@ export default {
 						</div>
 						:
 						<div class="right menu">
-
+							<div class="item">
+								<a href="/new" class="ui blue button" oncreate={m.route.link}>New Post</a>
+							</div>
 							<div class="ui simple dropdown item">
 								<i class="bullhorn big icon"></i> <i class="dropdown icon"></i>
 								<div class="menu">
