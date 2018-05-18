@@ -6,12 +6,6 @@ import backend from "./../services/backend.js";
 
 // List of tags that i previously pulled from my backend
 let tagStore = [];
-// Output list of tags for which the badge/buttons will be created below the input
-let tagOutput = [];
-// List of filtered strings from tagStore which match whats written in the input. This is used to populate the drop down
-let tagFilter = [];
-// Temp holding of the input text
-let tagInput = "";
 
 let data = {
     title: "",
@@ -20,6 +14,13 @@ let data = {
     content: "",
     tags: ["cat", "dog"]
 };
+
+$(document).ready(function() {
+    $('.ui.normal.dropdown')
+    .dropdown({
+        maxSelections: 10
+    });
+});
 
 const actions = {
     setPostTitle: v => {
@@ -35,30 +36,6 @@ const actions = {
         data.content = v;
     },
 
-    addTagToDropDown: val => {
-        tagInput = val;
-        if (tagInput.length > 2) {
-            tagFilter = tagStore.filter(item => {
-                return item.includes(tagInput);
-            });
-            console.log("Found match with : " + tagFilter);
-        }
-    },
-
-    addTagToList: val => {
-        tagFilter = [];
-        tagInput = "";
-        console.log("Adding element to tags : " + val);
-        tagOutput.push(val);
-        console.log("Updated tags list : " + tagOutput);
-    },
-
-    removeTag: val => {
-        // function to remove a tag by clicking on the cross button
-        tagOutput.splice(tagOutput.indexOf(val), 1);
-        console.log("Updated tags list : " + tagOutput);
-    },
-
     handleSubmit: async () => {
         NProgress.start();
         data.author = await firebase.auth().currentUser.uid;
@@ -69,6 +46,7 @@ const actions = {
 };
 
 const PostNew = {
+
     oninit: async () => {
         NProgress.start();
         tagStore = await backend.get_all_tags();
@@ -82,104 +60,67 @@ const PostNew = {
                 <div class="field">
                     <label class="label">Title</label>
 
-                        <input
-                            class="input"
-                            type="text"
-                            placeholder="Title"
-                            oninput={m.withAttr("value", actions.setPostTitle)}
-                        />
+                    <input
+                        class="input"
+                        type="text"
+                        placeholder="Title"
+                        oninput={m.withAttr("value", actions.setPostTitle)}
+                    />
 
                 </div>
 
                 <div class="field">
                     <label class="label">Link</label>
 
-                        <input
-                            class="input"
-                            type="text"
-                            placeholder="Link"
-                            oninput={m.withAttr("value", actions.setPostLink)}
-                        />
+                    <input
+                        class="input"
+                        type="text"
+                        placeholder="Link"
+                        oninput={m.withAttr("value", actions.setPostLink)}
+                    />
 
                 </div>
 
                 <div class="field">
-                    <label class="label">Tags</label>
-
-                        <input
-                            class="input"
-                            type="text"
-                            oninput={m.withAttr(
-                                "value",
-                                actions.addTagToDropDown
-                            )}
-                            value={tagInput}
-                        />
-
-                    <div
-                        class={
-                            "dropdown " +
-                            (tagFilter.length != 0 && tagInput.length > 2
-                                ? "is-active"
-                                : "")
-                        }
-                    >
-                        <div
-                            class="dropdown-menu"
-                            id="dropdown-menu"
-                            role="menu"
-                        >
-                            <div class="dropdown-content">
-                                {tagFilter.length > 0
-                                    ? tagFilter.map(item =>
-                                            <a
-                                                href=""
-                                                class="dropdown-item"
-                                                onclick={function(e) {
-                                                    e.preventDefault();
-                                                    actions.addTagToList(item);
-                                                }}
-                                            >
-                                                {item}
-                                          </a>
-                                      )
-                                    : null}
+                    <label class="label">Tags/Select</label>
+                    <div class="ui fluid multiple search normal selection dropdown">
+                        <input type="hidden" name="country" />
+                        <i class="dropdown icon"></i>
+                        <div class="default text">Select Country</div>
+                            {
+                            tagStore.length > 0 
+                            ?
+                            <div class="menu">
+                                {tagStore.map(tag => <div class="item" data-value="af">{tag}</div>)}
                             </div>
-                        </div>
+                            : 
+                            <div class="menu">
+                                <div class="item" data-value="af"><i class="af flag"></i>Afghanistan</div>
+                            </div>    
+                            }
+
                     </div>
+
                 </div>
-                <div class="field is-grouped is-grouped-multiline">
-                    {tagOutput.map(item =>
-                        <div class="control">
-                            <div class="tags has-addons">
-                                <a class="tag is-link">
-                                    {item}
-                                </a>
-                                <a
-                                    class="tag is-delete"
-                                    onclick={function() {
-                                        actions.removeTag(item);
-                                    }}
-                                />
-                            </div>
-                        </div>
-                    )}
-                </div>
+
+
+
+
 
                 <div class="field">
                     <label class="label">Content</label>
 
-                        <textarea
-                            class="textarea"
-                            placeholder="Content"
-                            oninput={m.withAttr(
-                                "value",
-                                actions.setPostContent
-                            )}
-                        />
+                    <textarea
+                        class="textarea"
+                        placeholder="Content"
+                        oninput={m.withAttr(
+                            "value",
+                            actions.setPostContent
+                        )}
+                    />
 
                 </div>
-                <button class="ui button"  onclick={actions.handleSubmit}>Submit</button>
+                <button class="ui button" onclick={actions.handleSubmit}>Submit</button>
             </form>
         </div>
 };
