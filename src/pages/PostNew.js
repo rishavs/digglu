@@ -51,6 +51,7 @@ const PostNew = {
         NProgress.start();
         tagStore = await backend.get_all_tags();
         console.log(tagStore);
+        m.redraw()
         NProgress.done();
     },
 
@@ -91,7 +92,7 @@ const PostNew = {
                             tagStore.length > 0 
                             ?
                             <div class="menu">
-                                {tagStore.map(tag => <div class="item" data-value="af">{tag}</div>)}
+                                {tagStore.map(tag => <div class="item" data-value={tag}>{tag}</div>)}
                             </div>
                             : 
                             <div class="menu">
