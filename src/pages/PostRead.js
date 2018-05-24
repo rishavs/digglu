@@ -2,6 +2,8 @@ const m = require("mithril");
 import "nprogress/nprogress.css";
 import NProgress from "nprogress";
 
+import Tag from './../components/Tag'
+
 import backend from "./../services/backend.js";
 
 const PostRead = {
@@ -13,8 +15,6 @@ const PostRead = {
             data: await backend.get_current_post(m.route.param().id)
         });
         m.redraw();
-        alert(state.data.tags)
-        console.log(state.data.tags)
         NProgress.done();
     },
 
@@ -85,22 +85,12 @@ const PostRead = {
 
 
                     <h3 class="ui dividing header">Tags</h3>
-                    <div class="row">
+
                         {Object.keys(state.data.tags).map((tag, val) =>
-                            <div class="ui label">
-                                {tag}
-                                <div class="detail">
-                                    {state.data.tags[tag]}
-                                    <a href="#">
-                                        <i class="thumbs up icon" />
-                                    </a>
-                                    <a href="#">
-                                        <i class="delete icon" />
-                                    </a>
-                                </div>
-                            </div>
+                            <Tag tagName={tag} tagScore={state.data.tags[tag]} />
+
                         )}
-                    </div>
+
 
                     <h3 class="ui dividing header">Comments</h3>
 
