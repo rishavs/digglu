@@ -12,7 +12,7 @@ let data = {
     link: "",
     thumb: "",
     content: "",
-    tags: []
+    tags: {}
 };
 
 $(document).ready(function() {
@@ -36,10 +36,10 @@ const actions = {
         data.content = v;
     },
     setPostTags: v => {
-        data.tags = v.split(",");
-        // console.log(v.split(","))
+        v.split(",").forEach(item => {
+            data.tags[item] = 1
+        });
     },
-    
 
     handleSubmit: async () => {
         NProgress.start();
@@ -62,7 +62,7 @@ const PostNew = {
 
     view: () =>
         <div class="ui main container">
-            <form class="ui form">
+            <div class="ui form">
                 <div class="field">
                     <label class="label">Title</label>
 
@@ -90,7 +90,7 @@ const PostNew = {
                 <div class="field">
                     <label class="label">Tags</label>
                     <div class="ui fluid multiple search normal selection dropdown">
-                        <input type="hidden" name="tags" onchange={m.withAttr("value", actions.setPostTags)} />
+                        <input type="hidden" onchange={m.withAttr("value", actions.setPostTags)} />
                         <i class="dropdown icon"></i>
                         <div class="default text">Select tags</div>
                             {
@@ -123,7 +123,7 @@ const PostNew = {
 
                 </div>
                 <button class="ui button" onclick={actions.handleSubmit}>Submit</button>
-            </form>
+            </div>
         </div>
 };
 

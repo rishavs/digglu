@@ -8,12 +8,13 @@ var backend = {
             let items = []
             response.forEach((doc) => {
                 const item = {
-                    'id': doc.id,
-                    'title': doc.data().title,
-                    'content': doc.data().content,
-                    'author': doc.data().author,
-                    'thumb': doc.data().thumb,
-                    'link': doc.data().link
+                    'id':       doc.id,
+                    'title':    doc.data().title,
+                    'content':  doc.data().content,
+                    'author':   doc.data().author,
+                    'thumb':    doc.data().thumb,
+                    'link':     doc.data().link,
+                    'tags':     doc.data().tags
                 }
                 items.push(item)
             })
