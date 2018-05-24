@@ -85,12 +85,11 @@ const PostRead = {
 
 
                     <h3 class="ui dividing header">Tags</h3>
-
-                        {Object.keys(state.data.tags).map((tag, val) =>
-                            <Tag tagName={tag} tagScore={state.data.tags[tag]} />
-
-                        )}
-
+<div>
+                    {Object.keys(state.data.tags).map((tag, val) =>
+                        <Tag tagName={tag} tagScore={state.data.tags[tag]} />
+                    )}
+</div>
 
                     <h3 class="ui dividing header">Comments</h3>
 

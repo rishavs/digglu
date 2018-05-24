@@ -9,6 +9,7 @@ import Logout from './pages/Logout'
 import PostNew from './pages/PostNew'
 import PostRead from './pages/PostRead'
 import PostEdit from './pages/PostEdit'
+import NotFound404 from './pages/NotFound404'
 
 
 m.route.prefix('#')
@@ -26,13 +27,16 @@ m.route(document.body, '/', {
     '/logout' : {
         render: () => m(Layout, m(Logout))
     },
-    '/new': {
+    '/p/new': {
         render: () => m(Layout, m(PostNew))
     },      
-    '/:id': {
+    '/p/:id': {
         render: () => m(Layout, m(PostRead))
     },     
-    '/:id/edit': {
+    '/p/:id/edit': {
         render: () => m(Layout, m(PostEdit))
+    },
+    '/:any...' : {
+        render: () => m(Layout, m(NotFound404))
     },    
 })

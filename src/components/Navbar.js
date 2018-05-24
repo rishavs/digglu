@@ -33,7 +33,7 @@ export default {
 						:
 						<div class="right menu">
 							<div class="item">
-								<a href="/new" class="ui blue button" oncreate={m.route.link}>New Post</a>
+								<a href="/p/new" class="ui blue button" oncreate={m.route.link}>New Post</a>
 							</div>
 							<div class="ui simple dropdown item">
 								<i class="bullhorn big icon"></i> <i class="dropdown icon"></i>

@@ -10,7 +10,7 @@ const Card = {
                 {/* <div class="inverted content" style={{ background:'black', opacity: '0.75',position: 'absolute', bottom: 0, width: '100%', height: 'auto' }}> */}
                 <div class="content" style={{ 'white-space': 'nowrap',   'overflow': 'hidden',
     'text-overflow': 'ellipsis' }}>
-                    <a class="header" href={'/' + vnode.attrs.post.id} oncreate={m.route.link}>{vnode.attrs.post.title}</a>
+                    <a class="header" href={'/p/' + vnode.attrs.post.id} oncreate={m.route.link}>{vnode.attrs.post.title}</a>
                     <div class="meta">
                         <a>Last Seen 2 days ago</a>
                     </div>
