@@ -1,9 +1,10 @@
 const m = require("mithril")
 
+import backend from "./../services/backend.js";
 
 const actions = {
     upvote_tag: (tName) => {
-        console.log(tName + "upvoted")
+        backend.upvote_tag(m.route.param().id)
     },
     downvote_tag: () => {
         console.log("downvoted")
@@ -16,7 +17,7 @@ const actions = {
 const Tag = {
     view: (vnode) => {
         return (
-            <div class="ui basic icon buttons" style=" margin:2px ;">
+            <div class="ui small basic icon buttons" style=" margin:2px ;">
                 <button class="ui button" onclick={() => actions.click_tag(vnode.attrs.tagName)}>
                     {vnode.attrs.tagName + " (" + vnode.attrs.tagScore + ")"}
                 </button>

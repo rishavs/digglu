@@ -6,6 +6,16 @@ import Tag from './../components/Tag'
 
 import backend from "./../services/backend.js";
 
+let flags = {
+    show_reply_input: false,
+}
+const actions= {
+    toggle_reply_flag: () => {
+        // console.log(flags.show_reply_input)
+        flags.show_reply_input = ! flags.show_reply_input
+    },
+}
+
 const PostRead = {
     data: {},
 
@@ -67,7 +77,7 @@ const PostRead = {
                                                 </div>
                                                 <div class="ui left labeled button" tabindex="0">
                                                     <a class="ui basic right pointing label"> 2,049 </a>
-                                                    <div class="ui button">
+                                                    <div class="ui button" onclick={actions.toggle_reply_flag}>
                                                         <i class="reply icon"></i> Reply
                                                 </div>
                                                 </div>
@@ -82,14 +92,23 @@ const PostRead = {
                         </div>
                     </div>
 
+                    <div class="ui divider" />
 
-
+                    {flags.show_reply_input ?
+                        <form class="ui reply form">
+                            <div class="field">
+                                <textarea></textarea>
+                            </div>
+                            <div class="ui blue labeled submit icon button">
+                                <i class="icon edit"></i> Add Reply
+                            </div>
+                        </form>
+                        : null
+                    }
                     <h3 class="ui dividing header">Tags</h3>
-<div>
                     {Object.keys(state.data.tags).map((tag, val) =>
                         <Tag tagName={tag} tagScore={state.data.tags[tag]} />
                     )}
-</div>
 
                     <h3 class="ui dividing header">Comments</h3>
 

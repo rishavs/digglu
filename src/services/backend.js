@@ -68,12 +68,14 @@ var backend = {
         }
     },
 
-    upvote_tag: async (tag, postId) => {
-        console.log('Getting all tags... ')
-        let items = []
+    upvote_tag: async (id) => {
+        console.log('Adding user to upvote list for Post > tag ')
+        // let items = []
         try {
-
-            return items
+            const ref = firebase.firestore().collection('posts').doc(id).collection('smoothies').doc('Nature')
+            const response = await ref.get()
+            console.log('Document data:', response.data())
+            // return items
         } catch (err) {
             console.log('Error getting documents', err)
         }
