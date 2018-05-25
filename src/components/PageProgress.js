@@ -1,6 +1,5 @@
 const m = require("mithril")
 
-
 const Pageprogress = {
     view: () => {
         return (

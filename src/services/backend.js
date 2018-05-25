@@ -24,6 +24,17 @@ var backend = {
             console.log('Error getting documents', err)
         }
     },
+    add_new_comment: async(comment) => {
+    	console.log('Saving comment as user: ' + comment.author)
+    	try {
+        	const commentRef = firebase.firestore().collection('comments')
+        	const response = await commentRef.add(comment)
+        	console.log("Document written with ID: ", response.id);
+        	return response.id
+    	} catch (err) {
+            console.log('Error getting documents', err)
+        }
+    },
     add_new_post: async(post) => {
     	console.log('Saving post as user: ' + post.author)
     	try {

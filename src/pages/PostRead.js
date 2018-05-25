@@ -6,43 +6,68 @@ import Tag from './../components/Tag'
 
 import backend from "./../services/backend.js";
 
+let data = {}
 let flags = {
     show_reply_input: false,
 }
-const actions= {
+let comment_data = {}
+
+const actions = {
     toggle_reply_flag: () => {
         // console.log(flags.show_reply_input)
-        flags.show_reply_input = ! flags.show_reply_input
+        flags.show_reply_input = !flags.show_reply_input
+    },
+    setPostReply: v => {
+        comment_data.content = v;
+    },
+    handle_submit: async () => {
+        NProgress.start();
+
+        console.log(comment_data.content)
+        comment_data.author = await firebase.auth().currentUser.uid;
+        comment_data.level = 0
+        comment_data.post_id = m.route.param().id
+        comment_data.parent_id = m.route.param().id
+
+        let new_id = await backend.add_new_comment(comment_data);
+        if (new_id ) {
+            flags.show_reply_input = false
+            comment_data = {}
+        }
+        else {
+            "New Comment reference not received"
+        }
+        m.redraw()
+        NProgress.done();
     },
 }
 
 const PostRead = {
-    data: {},
-
     oninit: async ({ state }) => {
         NProgress.start();
-        Object.assign(state, {
-            data: await backend.get_current_post(m.route.param().id)
-        });
+        data = await backend.get_current_post(m.route.param().id)
         m.redraw();
         NProgress.done();
     },
-
+    onremove: () => {
+        // reset flags
+        flags.show_reply_input = false
+    },
     view: ({ state }) =>
         <div class="ui main container ">
 
-            {!state.data.author
+            {!data.author
                 ? <div class="main">
                     <h2> Loading.... </h2>
                 </div>
                 :
                 <div class="main">
 
-                    <h1>{state.data.title}</h1>
+                    <h1>{data.title}</h1>
                     <div class="ui items">
                         <div class="item">
                             <div class="ui medium image">
-                                <img src={state.data.thumb} />
+                                <img src={data.thumb} />
                             </div>
 
                             <div class="content">
@@ -65,7 +90,7 @@ const PostRead = {
                                             </div>
 
                                             <div class="text">
-                                                {state.data.content}
+                                                {data.content}
                                             </div>
 
                                             <div class="actions">
@@ -95,19 +120,24 @@ const PostRead = {
                     <div class="ui divider" />
 
                     {flags.show_reply_input ?
-                        <form class="ui reply form">
+                        <div class="ui reply form">
                             <div class="field">
-                                <textarea></textarea>
+                                <textarea
+                                    class="textarea"
+                                    placeholder="Content"
+                                    oninput={m.withAttr("value", actions.setPostReply)}
+                                >
+                                </textarea>
                             </div>
-                            <div class="ui blue labeled submit icon button">
+                            <div class="ui blue labeled submit icon button" onclick={actions.handle_submit}>
                                 <i class="icon edit"></i> Add Reply
                             </div>
-                        </form>
+                        </div>
                         : null
                     }
                     <h3 class="ui dividing header">Tags</h3>
-                    {Object.keys(state.data.tags).map((tag, val) =>
-                        <Tag tagName={tag} tagScore={state.data.tags[tag]} />
+                    {Object.keys(data.tags).map((tag, val) =>
+                        <Tag tagName={tag} tagScore={data.tags[tag]} />
                     )}
 
                     <h3 class="ui dividing header">Comments</h3>
@@ -124,7 +154,7 @@ const PostRead = {
                                     <span class="date">Today at 5:42PM</span>
                                 </div>
                                 <div class="text">
-                                    {state.data.content}
+                                    {data.content}
                                 </div>
                                 <div class="actions">
                                     <a class="reply">(250) <i class="thumbs up icon"></i></a>
@@ -142,7 +172,7 @@ const PostRead = {
                                     <span class="date">Yesterday at 12:30AM</span>
                                 </div>
                                 <div class="text">
-                                    {state.data.content}
+                                    {data.content}
                                 </div>
                                 <div class="actions">
                                     <a class="reply">(250) <i class="thumbs up icon"></i></a>
@@ -160,7 +190,7 @@ const PostRead = {
                                             <span class="date">Just now</span>
                                         </div>
                                         <div class="text">
-                                            {state.data.content}
+                                            {data.content}
                                         </div>
                                         <div class="actions">
                                             <a class="reply">(250) <i class="thumbs up icon"></i></a>
