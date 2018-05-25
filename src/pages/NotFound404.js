@@ -7,11 +7,17 @@ const NotFound404 = {
         NProgress.start();
         NProgress.done();
     },
-    view: () => 
+    view: () =>
 
-        <main class="pageEntry">
-            <h1>404</h1>
-            <h2>Page not found!</h2>
+        <main class="ui main container pageEntry">
+            <div class="ui huge statistic">
+                <div class="value">
+                    404
+                </div>
+                <div class="label">
+                    Page not found :(
+                </div>
+            </div>
         </main>
 
 }

@@ -67,6 +67,27 @@ var backend = {
             console.log('Error getting documents', err)
         }
     },
+
+    upvote_tag: async (tag, postId) => {
+        console.log('Getting all tags... ')
+        let items = []
+        try {
+
+            return items
+        } catch (err) {
+            console.log('Error getting documents', err)
+        }
+    },
+    downvote_tag: async (tag, postId) => {
+        console.log('Getting all tags... ')
+        let items = []
+        try {
+
+            return items
+        } catch (err) {
+            console.log('Error getting documents', err)
+        }
+    },
     
     get_thumbnail: async (url) => {
         console.log('Getting thumbnail for url ' + url)
