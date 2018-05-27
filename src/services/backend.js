@@ -24,6 +24,37 @@ var backend = {
             console.log('Error getting documents', err)
         }
     },
+    get_all_comments: async (id) => {
+        console.log('Getting all comments for post' + id)
+        try {
+            const ref = firebase.firestore().collection('comments')
+            const response = await ref.where('post_id', '==', id).get()
+            let items = []
+            response.forEach((doc) => {
+                const item = {
+                    'id':           doc.id,
+                    'post_id':      doc.data().post_id,
+                    'content':      doc.data().content,
+                    'author':       doc.data().author,
+                    'level':        doc.data().level,
+                    'parent_id':    doc.data().parent_id
+                }
+                items.push(item)
+            })
+            console.log('Fetched ' + items.length + ' items')
+            return items
+            // return response
+            // console.log(response.docs)
+            // for (comment of response) {
+            //     console.log(comment.content);
+            // }
+            // response.forEach((doc) => {
+            //     console.log(doc.data().content)
+            // })
+        } catch (err) {
+            console.log('Error getting documents', err)
+        }
+    },
     add_new_comment: async(comment) => {
     	console.log('Saving comment as user: ' + comment.author)
     	try {
