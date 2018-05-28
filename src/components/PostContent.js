@@ -1,5 +1,10 @@
 const m = require("mithril")
 
+import "nprogress/nprogress.css";
+import NProgress from "nprogress";
+
+import backend from "./../services/backend.js";
+
 let flags = {
     show_reply_input: false,
 }

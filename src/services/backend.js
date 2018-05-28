@@ -42,6 +42,7 @@ var backend = {
                 items.push(item)
             })
             console.log('Fetched ' + items.length + ' items')
+            console.log(items)
             return items
             // return response
             // console.log(response.docs)
