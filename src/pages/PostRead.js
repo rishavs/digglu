@@ -19,14 +19,13 @@ const PostRead = {
         NProgress.start();
         post_data = await backend.get_current_post(m.route.param().id)
         m.redraw();
+        
         comments_data = await backend.get_all_comments(m.route.param().id)
         console.log(comments_data)
         console.log("Converting to tree structure")
 
-        let comments_map = await Utils.flatToHierarchy(comments_data)
+        let comments_map = await Utils.list_to_tree(comments_data)
         console.log(comments_map)
-
-
 
         m.redraw();
         NProgress.done();
