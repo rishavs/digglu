@@ -4,10 +4,12 @@ import "nprogress/nprogress.css";
 import NProgress from "nprogress";
 
 import Tag from './../components/Tag'
-import PostContent from './../components/PostContent'
+
 import Comment from './../components/Comment'
+import PostContent from './../components/PostContent'
 
 import backend from "./../services/backend.js";
+import Utils from "./../services/utils.js";
 
 let post_data = {}
 let comments_data = {}
@@ -19,6 +21,13 @@ const PostRead = {
         m.redraw();
         comments_data = await backend.get_all_comments(m.route.param().id)
         console.log(comments_data)
+        console.log("Converting to tree structure")
+
+        let comments_map = await Utils.flatToHierarchy(comments_data)
+        console.log(comments_map)
+
+
+
         m.redraw();
         NProgress.done();
     },

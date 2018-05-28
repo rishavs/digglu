@@ -42,16 +42,7 @@ var backend = {
                 items.push(item)
             })
             console.log('Fetched ' + items.length + ' items')
-            console.log(items)
             return items
-            // return response
-            // console.log(response.docs)
-            // for (comment of response) {
-            //     console.log(comment.content);
-            // }
-            // response.forEach((doc) => {
-            //     console.log(doc.data().content)
-            // })
         } catch (err) {
             console.log('Error getting documents', err)
         }
