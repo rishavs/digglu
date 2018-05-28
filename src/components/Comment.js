@@ -1,7 +1,7 @@
 const m = require("mithril")
 
 const Comment = {
-    view: () =>
+    view: (vnode) =>
         <div class="comment">
             <a class="avatar">
                 <img src="http://via.placeholder.com/50x50.png" />
@@ -12,7 +12,7 @@ const Comment = {
                     <span class="date">Today at 5:42PM</span>
                 </div>
                 <div class="text">
-                    {data.content}
+                    {vnode.attrs.comment.content}
                 </div>
                 <div class="actions">
                     <a class="reply">(250) <i class="thumbs up icon"></i></a>

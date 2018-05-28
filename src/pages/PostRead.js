@@ -5,6 +5,7 @@ import NProgress from "nprogress";
 
 import Tag from './../components/Tag'
 import PostContent from './../components/PostContent'
+import Comment from './../components/Comment'
 
 import backend from "./../services/backend.js";
 
@@ -48,26 +49,7 @@ const PostRead = {
                         <h1> No comments </h1>
                         :
                         <div class="ui threaded comments" style="max-width: 100%">
-                            {comments_data.map(comment =>
-                                <div class="comment">
-                                    <a class="avatar">
-                                        <img src="http://via.placeholder.com/50x50.png" />
-                                    </a>
-                                    <div class="content">
-                                        <a class="author">{comment.author}</a>
-                                        <div class="metadata">
-                                            <span class="date">Today at 5:42PM</span>
-                                        </div>
-                                        <div class="text">
-                                            {comment.content}
-                                        </div>
-                                        <div class="actions">
-                                            <a class="reply">(250) <i class="thumbs up icon"></i></a>
-                                            <a class="reply">(2110) <i class="reply icon"></i></a>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
+                            {comments_data.map(comment => <Comment comment={comment} /> )}
                         </div>
                     }
                 </div>
