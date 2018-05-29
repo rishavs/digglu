@@ -55,7 +55,7 @@ const PostNew = {
     oninit: async () => {
         NProgress.start();
         tagStore = await backend.get_all_tags();
-        console.log(tagStore);
+        // console.log(tagStore);
         m.redraw()
         NProgress.done();
     },

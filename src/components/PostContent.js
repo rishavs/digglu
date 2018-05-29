@@ -22,7 +22,7 @@ const actions = {
     handle_submit: async () => {
         NProgress.start();
 
-        console.log(comment_data.content)
+        // console.log(comment_data.content)
         comment_data.author = await firebase.auth().currentUser.uid;
         comment_data.level = 0
         comment_data.post_id = m.route.param().id

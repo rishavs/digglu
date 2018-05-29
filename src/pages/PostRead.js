@@ -58,7 +58,7 @@ const PostRead = {
                         <h1> No comments </h1>
                         :
                         <div class="ui threaded comments" style="max-width: 100%">
-                            {comments_map.map(comment => console.log(comment) )}
+                            {/* {comments_map.map(comment => console.log(comment) )} */}
                             {comments_map.map(comment => <Comment comment={comment}/> )}
                         </div>
                     }
