@@ -12,12 +12,17 @@ const Comment = {
                     <span class="date">Today at 5:42PM</span>
                 </div>
                 <div class="text">
-                    {vnode.attrs.comment.content}
+                    <p> ID: <span>{vnode.attrs.comment.id}</span></p>
+                    <p> PARENT_ID: <span>{vnode.attrs.comment.parent_id}</span></p>
+                    <p> Children num: <span>{vnode.attrs.comment.children.length}</span></p>
+                    <p> Content: <span>{vnode.attrs.comment.content}</span></p>
+                    {/* {vnode.attrs.comment.content} */}
                 </div>
                 <div class="actions">
                     <a class="reply">(250) <i class="thumbs up icon"></i></a>
                     <a class="reply">(2110) <i class="reply icon"></i></a>
                 </div>
+                {vnode.attrs.comment.children.map(com_child => <Comment comment={com_child}/> )}
             </div>
         </div>
 }
