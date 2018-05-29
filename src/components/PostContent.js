@@ -5,15 +5,16 @@ import NProgress from "nprogress";
 
 import backend from "./../services/backend.js";
 
-let flags = {
-    show_reply_input: false,
-}
 let comment_data = {}
 
 const actions = {
-    toggle_reply_flag: () => {
-        // console.log(flags.show_reply_input)
-        flags.show_reply_input = !flags.show_reply_input
+    toggle_post_reply: () => {
+        var component = document.getElementById("reply_for_post")
+        if (component.style.display === 'none') {
+            component.style.display = 'block';
+        } else {
+            component.style.display = 'none';
+        }
     },
     setPostReply: v => {
         comment_data.content = v;
@@ -29,8 +30,7 @@ const actions = {
 
         let new_id = await backend.add_new_comment(comment_data);
         if (new_id) {
-            flags.show_reply_input = false
-            comment_data = {}
+            console.log("Comment was added successfully")
         }
         else {
             "New Comment reference not received"
@@ -41,9 +41,9 @@ const actions = {
 }
 
 const PostContent = {
+    comment_data: {},
     onremove: () => {
-        // reset flags
-        flags.show_reply_input = false
+
     },
     view: (vnode) => [
         <h1>{vnode.attrs.postData.title}</h1>,
@@ -81,11 +81,11 @@ const PostContent = {
                                         <a class="ui basic right pointing label"> 2,048 </a>
                                         <div class="ui blue button">
                                             <i class="heart icon"></i> Like
-                                                </div>
+                                        </div>
                                     </div>
                                     <div class="ui left labeled button" tabindex="0">
                                         <a class="ui basic right pointing label"> 2,049 </a>
-                                        <div class="ui button" onclick={actions.toggle_reply_flag}>
+                                        <div class="ui button" onclick={() => actions.toggle_post_reply('reply_for_post')}>
                                             <i class="reply icon"></i> Reply
                                                 </div>
                                     </div>
@@ -98,22 +98,21 @@ const PostContent = {
                 </div>
 
             </div>
-            {flags.show_reply_input ?
-                <div class="ui reply form">
-                    <div class="field">
-                        <textarea
-                            class="textarea"
-                            placeholder="Content"
-                            oninput={m.withAttr("value", actions.setPostReply)}
-                        >
-                        </textarea>
-                    </div>
-                    <div class="ui blue labeled submit icon button" onclick={actions.handle_submit}>
-                        <i class="icon edit"></i> Add Reply
+
+            <div class="ui reply form" id="reply_for_post" style="display:none">
+                <div class="field">
+                    <textarea
+                        class="textarea"
+                        placeholder="Content"
+                        oninput={m.withAttr("value", actions.setPostReply)}
+                    >
+                    </textarea>
                 </div>
+                <div class="ui blue labeled submit icon button" onclick={actions.handle_submit}>
+                    <i class="icon edit"></i> Add Reply
                 </div>
-                : null
-            }
+            </div>
+
         </div>
             
 

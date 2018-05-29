@@ -10,7 +10,7 @@ const Layout = {
             	<Navbar />
 
                 {vnode.children}
-
+                
             </main>
         )
     }
