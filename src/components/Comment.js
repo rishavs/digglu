@@ -59,7 +59,7 @@ const Comment = {
         },
     },
     view: (vnode) =>
-        <div class="comment" comment_id={vnode.attrs.comment.id}>
+        <div class="comment" comment_id={vnode.attrs.comment.id} >
             <a class="avatar">
                 <img src="http://via.placeholder.com/50x50.png" />
             </a>
@@ -73,8 +73,11 @@ const Comment = {
                     {vnode.attrs.comment.data().content}
                 </div>
                 <div class="actions">
-                    <a class="reply">(250) <i class="thumbs up icon"></i></a>
-                    <a class="reply" onclick={() => vnode.state.actions.toggle_comment_reply(vnode.attrs.comment.id)}>(2110) <i class="reply icon"></i></a>
+                    <a class="reply">Like (250) <i class="heart outline icon"></i></a>
+                    <a class="reply" onclick={() => vnode.state.actions.toggle_comment_reply(vnode.attrs.comment.id)}> Reply (2110) <i class="reply icon"></i></a>
+                    <a class="bookmark" > Bookmark <i class="bookmark outline icon"></i></a>
+                    <a class="edit"> Edit <i class="edit icon"></i></a>
+                    <a class="delete"> Delete <i class="trash icon"></i></a>
                 </div>
                 <form class="ui reply form" id={"reply_for_id:" + vnode.attrs.comment.id} style="display:none" onsubmit={() => vnode.state.actions.handle_submit(vnode.attrs.comment)} >
                     <div class="field">

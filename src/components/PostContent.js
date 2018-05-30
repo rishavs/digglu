@@ -9,10 +9,10 @@ import utils from "./../services/utils.js";
 
 const actions = {
 
-    like_post: () => {
+    like_main_post: async () => {
         //ensure user is logged in to use this action
         utils.redirect_to_login_if_not_loggedin()
-
+        let response = await backend.like_post(m.route.param().id, firebase.auth().currentUser.uid)
     },
     toggle_post_reply: () => {
         //ensure user is logged in to use this action
@@ -103,8 +103,8 @@ const PostContent = {
 
         </div>,
         <div class="actions">
-            <button class="ui right labeled icon small basic button" onclick={actions.like_post}>
-                <i class="thumbs up icon"></i>
+            <button class="ui right labeled icon small basic button" onclick={actions.like_main_post}>
+                <i class="heart outline icon"></i>
                 1024
             </button>
             <button class="ui right labeled icon small basic button" onclick={() => actions.toggle_post_reply('reply_for_post')}>

@@ -69,6 +69,21 @@ var backend = {
             console.log('Error getting documents', err)
         }
     },
+    like_post: async (id, userid) => {
+        console.log("liking post: " + id)
+
+        try {
+            const ref = firebase.firestore().collection('sec_evt_like_post').doc("forpost:"+ id)
+            const response = await ref.set(
+                    {users:{[userid] : true}},
+                    {merge: true}
+                )
+            return response
+        } catch (err) {
+            console.log('Error getting documents', err)
+        }
+
+    },
 
     get_all_tags: async () => {
         console.log('Getting all tags... ')

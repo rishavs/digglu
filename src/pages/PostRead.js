@@ -53,7 +53,7 @@ const PostRead = {
                     {!comments_map.length > 0 ?
                         <h4> Doesn't looks like anything to me... </h4>
                         :
-                        <div class="ui threaded comments" >
+                        <div class="ui threaded comments" style="max-width: 100%">
                             {comments_map.map(comment => <Comment comment={comment}/> )}
                         </div>
                     }
