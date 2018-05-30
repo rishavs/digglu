@@ -65,7 +65,7 @@ const PostContent = {
                                 <a class="author">Matt</a>
 
                                 <div class="metadata">
-                                    <div class="date">2 days ago</div>
+                                    <div class="date"> <i class="clock icon"></i> 2 days ago</div>
                                     <div class="rating">
                                         <i class="star icon"></i>
                                         5 Faves
@@ -76,21 +76,7 @@ const PostContent = {
                                     {vnode.attrs.postData.content}
                                 </div>
 
-                                <div class="actions">
-                                    <div class="ui left labeled button" tabindex="0">
-                                        <a class="ui basic right pointing label"> 2,048 </a>
-                                        <div class="ui blue button">
-                                            <i class="heart icon"></i> Like
-                                        </div>
-                                    </div>
-                                    <div class="ui left labeled button" tabindex="0">
-                                        <a class="ui basic right pointing label"> 2,049 </a>
-                                        <div class="ui button" onclick={() => actions.toggle_post_reply('reply_for_post')}>
-                                            <i class="reply icon"></i> Reply
-                                                </div>
-                                    </div>
 
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -99,7 +85,24 @@ const PostContent = {
 
             </div>
 
-            <div class="ui reply form" id="reply_for_post" style="display:none">
+
+
+        </div>,
+        <div class="actions">
+            <button class="ui right labeled icon small basic button">
+                <i class="thumbs up icon"></i>
+                1024
+            </button>
+            <button class="ui right labeled icon small basic button" onclick={() => actions.toggle_post_reply('reply_for_post')}>
+                <i class="reply icon"></i>
+                2048
+            </button>
+            <button class="ui icon small button" onclick={() => actions.toggle_post_reply('reply_for_post')}>
+                <i class="ellipsis vertical icon"></i>
+            </button>
+
+        </div>,
+        <div class="ui reply form" id="reply_for_post" style="display:none">
                 <div class="field">
                     <textarea
                         class="textarea"
@@ -113,13 +116,9 @@ const PostContent = {
                 </div>
             </div>
 
-        </div>
-            
 
+    ]
 
-
-        ]
-    
 
 }
 

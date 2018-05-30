@@ -25,24 +25,11 @@ var backend = {
         }
     },
     get_all_comments: async (id) => {
-        console.log('Getting all comments for post' + id)
+        console.log('Getting all comments for post: ' + id)
         try {
             const ref = firebase.firestore().collection('comments')
             const response = await ref.where('post_id', '==', id).get()
-            let items = []
-            response.forEach((doc) => {
-                const item = {
-                    'id':           doc.id,
-                    'post_id':      doc.data().post_id,
-                    'content':      doc.data().content,
-                    'author':       doc.data().author,
-                    'level':        doc.data().level,
-                    'parent_id':    doc.data().parent_id
-                }
-                items.push(item)
-            })
-            console.log('Fetched ' + items.length + ' items')
-            return items
+            return response
         } catch (err) {
             console.log('Error getting documents', err)
         }
@@ -76,7 +63,7 @@ var backend = {
         try {
             const ref = firebase.firestore().collection('posts').doc(id)
             const response = await ref.get()
-            console.log('Document data:', response.data())
+            // console.log('Document data:', response.data())
             return response.data()
         } catch (err) {
             console.log('Error getting documents', err)

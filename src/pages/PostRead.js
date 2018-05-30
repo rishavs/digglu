@@ -22,13 +22,9 @@ const PostRead = {
         m.redraw();
 
         comments_data = await backend.get_all_comments(m.route.param().id)
-        console.log(comments_data)
-        console.log("Converting to tree structure")
-
         comments_map = await Utils.list_to_tree(comments_data)
-        console.log(comments_map)
-
         m.redraw();
+        
         NProgress.done();
     },
     onremove: () => {
@@ -55,10 +51,9 @@ const PostRead = {
 
                     <h3 class="ui dividing header">Comments</h3>
                     {!comments_map.length > 0 ?
-                        <h1> No comments </h1>
+                        <h4> Doesn't looks like anything to me... </h4>
                         :
-                        <div class="ui threaded comments" style="max-width: 100%">
-                            {/* {comments_map.map(comment => console.log(comment) )} */}
+                        <div class="ui threaded comments" >
                             {comments_map.map(comment => <Comment comment={comment}/> )}
                         </div>
                     }

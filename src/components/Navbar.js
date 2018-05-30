@@ -21,7 +21,7 @@ export default {
 									<option selected="" value="articles">Posts</option>
 									<option value="products">Tags</option>
 								</select>
-								<div class="ui blue basic button">Search</div>
+								<div class="ui basic button">Search</div>
 							</div>
 						</div>
 					</div>

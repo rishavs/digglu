@@ -33,8 +33,8 @@ const Comment = {
             comment_data.post_id =      m.route.param().id
             comment_data.parent_id =    parent_comment.id
 
-            console.log("And the new child is:")
-            console.log(comment_data)
+            // console.log("And the new child is:")
+            // console.log(comment_data)
     
             let new_id = await backend.add_new_comment(comment_data);
             if (new_id) {
@@ -57,15 +57,13 @@ const Comment = {
                 <img src="http://via.placeholder.com/50x50.png" />
             </a>
             <div class="content">
-                <a class="author">{vnode.attrs.comment.author}</a>
+                <a class="author">{vnode.attrs.comment.data().author}</a>
                 <div class="metadata">
                     <span class="date">Today at 5:42PM</span>
                 </div>
                 <div class="text">
-                    <p> ID: <span>{vnode.attrs.comment.id}</span></p>
-                    <p> PARENT_ID: <span>{vnode.attrs.comment.parent_id}</span></p>
-                    <p> Children num: <span>{vnode.attrs.comment.children.length}</span></p>
-                    <p> Content: <span>{vnode.attrs.comment.content}</span></p>
+
+                    {vnode.attrs.comment.data().content}
                 </div>
                 <div class="actions">
                     <a class="reply">(250) <i class="thumbs up icon"></i></a>
