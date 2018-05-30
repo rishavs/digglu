@@ -5,7 +5,7 @@ import NProgress from "nprogress";
 
 import backend from "./../services/backend.js";
 
-let comment_data = {}
+
 
 const actions = {
     toggle_post_reply: () => {
@@ -16,13 +16,11 @@ const actions = {
             component.style.display = 'none';
         }
     },
-    setPostReply: v => {
-        comment_data.content = v;
-    },
     handle_submit: async () => {
         NProgress.start();
-
-        // console.log(comment_data.content)
+        console.log(document.getElementById("textarea_for_post_reply").value)
+        let comment_data = {}
+        comment_data.content = document.getElementById("textarea_for_post_reply").value;
         comment_data.author = await firebase.auth().currentUser.uid;
         comment_data.level = 0
         comment_data.post_id = m.route.param().id
@@ -31,12 +29,16 @@ const actions = {
         let new_id = await backend.add_new_comment(comment_data);
         if (new_id) {
             console.log("Comment was added successfully")
+            document.getElementById("textarea_for_post_reply").style.display = 'none'
         }
         else {
             "New Comment reference not received"
         }
         m.redraw()
         NProgress.done();
+
+        // this is to stop the page refresh
+        return false
     },
 }
 
@@ -102,19 +104,19 @@ const PostContent = {
             </button>
 
         </div>,
-        <div class="ui reply form" id="reply_for_post" style="display:none">
-                <div class="field">
-                    <textarea
-                        class="textarea"
-                        placeholder="Content"
-                        oninput={m.withAttr("value", actions.setPostReply)}
-                    >
-                    </textarea>
-                </div>
-                <div class="ui blue labeled submit icon button" onclick={actions.handle_submit}>
-                    <i class="icon edit"></i> Add Reply
-                </div>
+        <form class="ui reply form" id="reply_for_post" style="display:none" onsubmit={actions.handle_submit}>
+            <div class="field">
+                <textarea
+                    id="textarea_for_post_reply"
+                    class="textarea"
+                    placeholder="Content"
+                >
+                </textarea>
             </div>
+            <div class="ui blue labeled submit icon button" onclick={actions.handle_submit}>
+                <i class="icon edit"></i> Add Reply
+            </div>
+        </form>
 
 
     ]

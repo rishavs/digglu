@@ -24,13 +24,13 @@ const PostRead = {
         comments_data = await backend.get_all_comments(m.route.param().id)
         comments_map = await Utils.list_to_tree(comments_data)
         m.redraw();
-        
+
         NProgress.done();
     },
     onremove: () => {
         // reset flags
         post_data = {}
-        comments_data = {}
+        comments_map = {}
     },
     view: ({ state }) =>
         <div class="ui main container ">
