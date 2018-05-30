@@ -4,20 +4,25 @@ import "nprogress/nprogress.css";
 import NProgress from "nprogress";
 
 import backend from "./../services/backend.js";
+import utils from "./../services/utils.js";
 
 const Comment = {
     oninit: () => {
 
     },
-    
+
     actions: {
+
         toggle_comment_reply: (id) => {
+            //ensure user is logged in to use this action
+            utils.redirect_to_login_if_not_loggedin()
+
             var component = document.getElementById("reply_for_id:" + id)
             if (component.style.display === 'none') {
                 component.style.display = 'block';
 
                 // this bit is mainly for a smoother transition
-                document.getElementById("textarea_for_id:" + id).scrollIntoView({behavior:"smooth", block:"center", inline:"center"})
+                document.getElementById("textarea_for_id:" + id).scrollIntoView({ behavior: "smooth", block: "center", inline: "center" })
                 document.getElementById("textarea_for_id:" + id).focus();
             } else {
                 component.style.display = 'none';
@@ -25,17 +30,19 @@ const Comment = {
         },
         handle_submit: async (parent_comment) => {
             NProgress.start();
-            
+            //ensure user is logged in to use this action
+            utils.redirect_to_login_if_not_loggedin()
+
             let comment_data = {}
-            comment_data.content =      document.getElementById("textarea_for_id:" + parent_comment.id ).value;
-            comment_data.author =       await firebase.auth().currentUser.uid;
-            comment_data.level =        parent_comment.level + 1
-            comment_data.post_id =      m.route.param().id
-            comment_data.parent_id =    parent_comment.id
+            comment_data.content = document.getElementById("textarea_for_id:" + parent_comment.id).value;
+            comment_data.author = await firebase.auth().currentUser.uid;
+            comment_data.level = parent_comment.level + 1
+            comment_data.post_id = m.route.param().id
+            comment_data.parent_id = parent_comment.id
 
             // console.log("And the new child is:")
             // console.log(comment_data)
-    
+
             let new_id = await backend.add_new_comment(comment_data);
             if (new_id) {
                 console.log("Comment was added successfully")
@@ -59,7 +66,7 @@ const Comment = {
             <div class="content">
                 <a class="author">{vnode.attrs.comment.data().author}</a>
                 <div class="metadata">
-                    <span class="date">Today at 5:42PM</span>
+                    <span class="date"><i class="clock icon"></i> Today at 5:42PM</span>
                 </div>
                 <div class="text">
 
@@ -67,7 +74,7 @@ const Comment = {
                 </div>
                 <div class="actions">
                     <a class="reply">(250) <i class="thumbs up icon"></i></a>
-                    <a class="reply" onclick={() => vnode.state.actions.toggle_comment_reply(vnode.attrs.comment.id )}>(2110) <i class="reply icon"></i></a>
+                    <a class="reply" onclick={() => vnode.state.actions.toggle_comment_reply(vnode.attrs.comment.id)}>(2110) <i class="reply icon"></i></a>
                 </div>
                 <form class="ui reply form" id={"reply_for_id:" + vnode.attrs.comment.id} style="display:none" onsubmit={() => vnode.state.actions.handle_submit(vnode.attrs.comment)} >
                     <div class="field">
@@ -81,8 +88,8 @@ const Comment = {
                     <button class="ui primary submit labeled icon button" >
                         <i class="icon edit"></i> Add Reply
                     </button>
-                    <br/>
-                    <br/>
+                    <br />
+                    <br />
 
                 </form>
                 {vnode.attrs.comment.children.map(com_child => <Comment comment={com_child} />)}

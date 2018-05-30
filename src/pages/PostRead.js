@@ -9,7 +9,7 @@ import Comment from './../components/Comment'
 import PostContent from './../components/PostContent'
 
 import backend from "./../services/backend.js";
-import Utils from "./../services/utils.js";
+import utils from "./../services/utils.js";
 
 let post_data = {}
 let comments_data = {}
@@ -22,7 +22,7 @@ const PostRead = {
         m.redraw();
 
         comments_data = await backend.get_all_comments(m.route.param().id)
-        comments_map = await Utils.list_to_tree(comments_data)
+        comments_map = await utils.list_to_tree(comments_data)
         m.redraw();
 
         NProgress.done();
