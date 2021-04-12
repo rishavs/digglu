@@ -1,0 +1,24 @@
+name: digglu
+version: 0.1.0
+
+authors:
+    - Rishav Sharan <rishav.sharan@gmail.com>
+
+dependencies:
+    pg:
+        github: will/crystal-pg
+    dotenv:
+        github: gdotdesign/cr-dotenv
+    jwt:
+        github: crystal-community/jwt
+    # helmet:
+    #     github: EvanHahn/crystal-helmet
+
+        
+targets:
+    noir:
+        main: src/noir.cr
+
+crystal: 0.35.1
+
+license: MIT

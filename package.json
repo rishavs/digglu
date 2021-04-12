@@ -2,13 +2,14 @@
     "name": "digglu",
     "version": "1.0.0",
     "description": "",
-    "scripts": {
-    },
+    "scripts": {},
     "keywords": [],
     "author": "",
     "license": "ISC",
     "devDependencies": {
+        "autoprefixer": "^10.2.5",
+        "postcss": "^8.2.9",
+        "tailwindcss": "^2.0.4"
     },
-    "dependencies": {
-    }
+    "dependencies": {}
 }
