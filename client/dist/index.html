@@ -27,7 +27,7 @@
     <div class="progress-bar" id="progress-bar"></div>
     <div id="searchbar_container" class=""></div>
     <div id="filtersbar_container" class=""></div>
-    
+
     <!-- <main>
         <div id="page_container" class="container pageEntry dbg" style="min-height: 500px">
             <div id="error_flash" class="notification is-danger is-hidden">
@@ -35,7 +35,7 @@
             <article> Loading....</article>
         </div>
     </main> -->
-    <main class="bg-background-base">
+    <main class="bg-background-light">
 
         <!-- Error Flash -->
 
@@ -43,64 +43,77 @@
         <div class="mx-16 flex">
 
             <!-- Content Container Column -->
-            <div id="pagecontent_container" class="w-3/4 py-2">
+            <div id="pagecontent_container" class="w-3/4 py-2 grid grid-cols-3 gap-2">
 
                 <!-- Post Card -->
-                <div class="h-48 mt-2 ml-2 border static rounded shadow">
+                <div class="h-48 mt-2 ml-2 col-span-3 border border-gray-900 static rounded hover:shadow-md">
                     <img class="absolute w-1/5 h-48 rounded-l"
                         style="clip-path: polygon(0 0, 80% 0%, 98% 100%, 0% 100%); " src="https://picsum.photos/400/400"
-                        alt="avatar"/>
-    
+                        alt="avatar" />
+
                     <div
-                        class="absolute bg-primary-base text-center align-middle rounded h-6 w-20 -mx-2 my-8 border-2 divide-y ">
-                        <p class="text-xs text-white"> Trending</p>
+                        class="absolute bg-primary-light text-center align-middle rounded h-6 w-20 -mx-2 my-8 border-2 divide-y ">
+                        <p class="text-xs text-white"> #Technology</p>
                     </div>
-    
+
                     <div
-                        class="absolute bg-yellow-400 text-center align-middle rounded h-16 w-20 -mx-2 my-16 border-2 border-white divide-y divide-white">
-                        <p class="text-2xl font-extrabold text-gray-800 text-opacity-100">3662</p>
-                        <p class="text-xs text-gray-800"> diggs</p>
+                        class="absolute bg-info-light text-center rounded h-14 w-20 -mx-2 my-16 border-2 border-white divide-y divide-white">
+                        <p class="h-8 text-2xl font-extrabold text-gray-800 text-opacity-100">3662</p>
+                        <p class="h-6 text-xs text-gray-900 ">🗲 Trending</p>
                     </div>
-    
+
                     <div class="h-36 flex -ml-4">
-   
+
                         <div class="mt-4 mr-2">
                             <div class="h-48 w-1/3 float-left"
                                 style="shape-outside: polygon(0 0, 80% 0%, 98% 100%, 0% 100%)"></div>
 
-                            <div class ="">
-                                <img class="w-6 h-6 inline" src="favicon.png" />
-                                <p class="font-bold inline"> CrSFML provides a simple HTTP client class which you can use to communicate
-                                    with HTTP servers. <span class="text-xs font-light">[theguardian.com] [11 hours ago]</span></p> <a href="#" class="border bg-primary-base text-xs text-gray-200 p-1 rounded">#Technology</a>
+                            <div class="">
+                                <img class="w-8 h-8 inline border rounded p-1" src="favicon.png" />
+                                <p class="font-bold inline"> CrSFML provides a simple HTTP client class which you can
+                                    use to communicate
+                                    with HTTP servers. <span class="text-xs font-light">[theguardian.com]</span></p>
                             </div>
                             <div class="mt-1">
-        
-                                <p class="text-sm text-gray-600">This is just a dummy text to see if tilting the image works well. will have
+
+                                <p class="text-gray-600 italic">This is just a dummy text to see if tilting the image
+                                    works well. will have
                                     to do the entire content part of the card from scratch. Also we can put a div on
                                     the image with opacity high and on hover remove
                                     opacity for the "clearing" effct on hover. </p>
                             </div>
 
                         </div>
-              
+
                     </div>
-                    <div class="h-12 bg-grey-lighter flex border-t -ml-10">
+                    <div class="h-12 bg-grey-lighter flex -ml-10">
                         <div class="w-1/3"></div>
-                        <div class="flex w-2/3 justify-between">
-                            <div class ="flex items-center text-xs text-gray-500 font-bold justify-between w-2/3">
-                                <span class=""> Posted by &nbsp<img class="w-6 h-6 inline" src="avatar.jpg" /> Rishav Sharan,</span>
-                                <span class=""> 🕒 1 day ago,</span>
-                                <span class=""> in <a href="#" class="border bg-primary-base text-gray-200 p-1 rounded">#Technology</a></span> &nbsp
+                        <div class="flex w-2/3 justify-between ">
+                            <div class="flex items-center text-xs text-gray-500">
+                                <span class="">by &nbsp<img class="w-6 h-6 inline border border-black rounded-full"
+                                        src="avatar.jpg" /> Rishav Sharan</span>
+                                &nbsp &nbsp
+                                <span class="">⏳ 1 day ago</span>
                             </div>
-              
-                            <div class="bg-grey-lighter flex items-center justify-between text-gray-700 font-bold mr-4">
-                                Goto Comments (243) &nbsp <span class="text-2xl"> »</span>
-                            </div>
+
+                            <a href="#"
+                                class="border rounded-tl-lg rounded-br-lg pt-2 px-2 shadow-inner font-bold hover:bg-primary-light hover:text-white align-bottom">Goto Comments (243)</a>
                         </div>
-    
+
                     </div>
                 </div>
-            
+
+                <div class="h-48 mt-2 ml-2 col-span-1 border border-black rounded ">
+                    <img class="h-full w-full object-fit" src="https://source.unsplash.com/random"/>
+                </div>
+                <div class="h-48 mt-2 ml-2 col-span-1 border border-black rounded "></div>
+                <div class="h-48 mt-2 ml-2 col-span-1 border border-black rounded "></div>
+                <div class="h-48 mt-2 ml-2 col-span-2 border border-black rounded "></div>
+                <div class="h-48 mt-2 ml-2 col-span-1 border border-black rounded "></div>
+                <div class="h-48 mt-2 ml-2 col-span-1 border border-black rounded "></div>
+                <div class="h-48 mt-2 ml-2 col-span-2 border border-black rounded "></div>
+                <div class="h-48 mt-2 ml-2 col-span-1 border border-black rounded "></div>
+
             </div>
 
             <!-- Lists Container Column -->

@@ -11,7 +11,7 @@ let Card = {
                     alt="avatar">
 
                 <div
-                    class="absolute bg-primary-base text-center align-middle rounded h-6 w-20 -mx-2 my-8 border-2 divide-y ">
+                    class="absolute bg-primary-light text-center align-middle rounded h-6 w-20 -mx-2 my-8 border-2 divide-y ">
                     <p class="text-xs text-white"> Trending</p>
                 </div>
 

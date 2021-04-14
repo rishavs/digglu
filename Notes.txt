@@ -1,0 +1,7 @@
+Temp attributes for posts
+    - 🍼🐣 New
+    - 🗲 Trending - high rate of being liked
+    - 🗪 Discourse - High comment count
+    - ❤️ Well loved - High likes count
+    - 🔥 Hot - High score value
+    - ⛏️ Well Dug

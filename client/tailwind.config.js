@@ -8,36 +8,33 @@ module.exports = {
     extend: {            
       colors: {
         primary: {
-            base: "#1B5790",
-            light: "#5f89b1",
+            light: "#1B5790",
             dark: "#12395E"
         },
         secondary: {
-            base: "#1c927c",
-            light: "#49DCC1",
+            light: "#12395E",
             dark: "#125E50"
         },
-        accent: {
-          base: "#1c927c",
-          light: "#49DCC1",
+        success: {
+          light: "#21AB92",
           dark: "#125E50"
         },
         danger: {
-            base: "#1B5790",
-            light: "#FFFFFF",
+            light: "#E97298",
+            dark: "#CCCCCC"
+        },
+        info: {
+            light: "#FDE235",
+            dark: "#CCCCCC"
+        },
+        action: {
+            light: "#259DD0",
             dark: "#CCCCCC"
         },
         background: {
-            base: "#FAFAFA",
             light: "#FFFFFF",
             dark: "#E5E5E5"
         },
-        fontcolor: {
-            base: "#1B5790",
-            light: "#FFFFFF",
-            dark: "#CCCCCC"
-        },
-
     }
   },
   },
