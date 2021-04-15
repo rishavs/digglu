@@ -43,7 +43,7 @@
         <div class="mx-16 flex">
 
             <!-- Content Container Column -->
-            <div id="pagecontent_container" class="w-3/4 py-2 grid grid-cols-3 gap-2">
+            <div id="pagecontent_container" class="w-3/4 py-2 grid grid-cols-3 lg:grid-cols-2 gap-2">
 
                 <!-- Post Card -->
                 <div class="h-48 mt-2 ml-2 col-span-3 border border-gray-900 static rounded hover:shadow-md">
@@ -103,8 +103,18 @@
                     </div>
                 </div>
 
-                <div class="h-48 mt-2 ml-2 col-span-1 border border-black rounded ">
-                    <img class="h-full w-full object-fit" src="https://source.unsplash.com/random"/>
+                <div class="h-48 mt-2 ml-2 col-span-1 static border border-black rounded ">
+                    <img class="absolute h-48 w-2/3 object-contain" src="https://source.unsplash.com/random"/>
+                    <div
+                        class="absolute bg-primary-light text-center align-middle rounded h-6 w-20 -mx-2 my-8 border-2 divide-y ">
+                        <p class="text-xs text-white"> #Technology</p>
+                    </div>
+
+                    <div
+                        class="absolute bg-info-light text-center rounded h-14 w-20 -mx-2 my-16 border-2 border-white divide-y divide-white">
+                        <p class="h-8 text-2xl font-extrabold text-gray-800 text-opacity-100">3662</p>
+                        <p class="h-6 text-xs text-gray-900 ">🗲 Trending</p>
+                    </div>
                 </div>
                 <div class="h-48 mt-2 ml-2 col-span-1 border border-black rounded "></div>
                 <div class="h-48 mt-2 ml-2 col-span-1 border border-black rounded "></div>
