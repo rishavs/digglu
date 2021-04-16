@@ -28,16 +28,16 @@ let Searchbar = {
                     /*html*/`
                     <div>
                         <!-- Login button -->
-                        <a href="#"
-                            class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-secondary-light focus:outline-none focus:text-white focus:bg-gray-700">
+                        <a href="/#/login"
+                            class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-secondary-light">
                             Login
-                        </a>
+                        </a> &nbsp
 
                         <!-- Signup Button -->
-                        <button
-                            class="text-white rounded font-lg h-10 px-8 font-semibold bg-danger-light hover:bg-primary-light focus:outline-none focus:shadow-outline">
-                            Signup
-                        </button>
+                        <a href="/#/register"
+                            class="text-white rounded font-lg px-6 py-2 font-semibold bg-danger-light hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            Register
+                        </a>
                     </div>`
                     }
                 </div>

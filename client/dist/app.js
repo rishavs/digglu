@@ -13,16 +13,18 @@ import Login        from './views/pages/Login.js'
 import Logout       from './views/pages/Logout.js'
 import Register     from './views/pages/Register.js'
 import Account      from './views/pages/Account.js'
+import Secret       from './views/pages/Secret.js'
 
 import Searchbar    from './views/components/Searchbar.js'
 import Filtersbar   from './views/components/Filtersbar.js'
-import SideBar  from './views/components/SideBar.js'
+import SideBar      from './views/components/SideBar.js'
 import Bottombar    from './views/components/Bottombar.js' 
 
 // List of supported routes. Any url other than these routes will throw a 404 error
 const routes = {
     '/'                 : Home
     , '/about'          : About
+    , '/secret'         : Secret
     , '/p/:param'       : PostShow
     , '/p/new'          : PostNew
     , '/login'          : Login
@@ -54,7 +56,7 @@ const router = async () => {
     // Lazy load view element:
     const searchbar_div     = null || document.getElementById('searchbar_container');
     const filtersbar_div    = null || document.getElementById('filtersbar_container');
-    const content_div       = null || document.getElementById('page_container');
+    const content_div       = null || document.getElementById('pagecontent_container');
     const sidebar_div       = null || document.getElementById('sidebar_container');
     const footer_div        = null || document.getElementById('footer_container');
     
@@ -84,6 +86,8 @@ const router = async () => {
     // Get the page from our hash of supported routes.
     // If the parsed URL is not in our list of supported routes, select the 404 page instead
     let page = routes[parsedURL] ? routes[parsedURL] : Error404
+
+    console.log(page)
 
     // Client side Auth Guard
     // If the page has a onlyAllow property, reoute the page appropriately or send user to login page

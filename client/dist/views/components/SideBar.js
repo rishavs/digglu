@@ -3,7 +3,7 @@ let Bottombar = {
         let view =  /*html*/`
 
             <!-- Trending Posts list -->
-            <div class="rounded-md w-full my-4 bg-primary-light divide-y divide-gray-600 shadow">
+            <div class="rounded-md w-full my-4 bg-primary-light divide-y divide-gray-600 shadow-md">
                 <div class="h-12 pl-4 p-4 text-white ">
                     Trending Posts
                     <!-- <span class="px-4 py-2 text-xl w-48 font-semibold text-white"></span> -->
