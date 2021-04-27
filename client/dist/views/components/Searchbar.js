@@ -5,8 +5,9 @@ let Searchbar = {
                 <div class="mx-16 flex items-center justify-between h-16">
 
                     <!-- Logo -->
-                    <img class="h-10" src="/logo.png" alt="Site logo" />
-
+                    <a href="#"> 
+                        <img class="h-10" src="/logo.png" alt="Site logo" />
+                    </a>
                     <!-- Search textbox -->
                     <form action="/search" class="w-1/2 relative">
                         <input type="search" placeholder="&nbsp &nbsp Press Ctrl + / to focus here."
@@ -35,7 +36,7 @@ let Searchbar = {
 
                         <!-- Signup Button -->
                         <a href="/#/register"
-                            class="text-white rounded font-lg px-6 py-2 font-semibold bg-danger-light hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            class="text-white rounded font-lg px-6 py-2 font-semibold bg-pink-400 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             Register
                         </a>
                     </div>`

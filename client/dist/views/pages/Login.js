@@ -27,19 +27,15 @@ let Login = {
     render: async function () {
         return /*html*/ `
             <section class="section pageEntry col-span-3 bg-primary-light rounded shadow-md">
-                <div class="px-4 py-16 items-center">
+                <div class="px-4 py-16 px-16">
                     <h2 class="text-center text-3xl font-extrabold text-gray-200">
-                        Create your new Digglu account
+                        Login to Digglu
                     </h2>
 
                     <form class="mt-8 space-y-6" action="#" method="POST">
-                        <input type="search" placeholder="Enter your Email Address"
+                        <input type="search" placeholder="&nbsp &nbsp Enter your Email Address"
                             class="p-2 text-gray-700 w-full bg-secondary-light rounded placeholder-gray-400 focus:outline-none focus:border-gray-400 focus:bg-background-light"/>
-                        <input type="" placeholder="Choose a Nick Name"
-                            class="p-2 text-gray-700 w-full bg-secondary-light rounded placeholder-gray-400 focus:outline-none focus:border-gray-400 focus:bg-background-light"/>
-                        <input type="password" placeholder="Enter a Password"
-                            class="p-2 text-gray-700 w-full bg-secondary-light rounded placeholder-gray-400 focus:outline-none focus:border-gray-400 focus:bg-background-light"/>
-                        <input type="password" placeholder="Re-enter the Password"
+                        <input type="password" placeholder="&nbsp &nbsp Enter your Password"
                             class="p-2 text-gray-700 w-full bg-secondary-light rounded placeholder-gray-400 focus:outline-none focus:border-gray-400 focus:bg-background-light"/>
 
                         <div class="flex items-center justify-between">
@@ -57,7 +53,7 @@ let Login = {
                             </div>
                         </div>
 
-                        <button type="submit" id="login_submit_btn" class="p-4 w-1/3 bg-danger-light text-lg font-bold text-gray-200"> Register </button>
+                        <button type="submit" id="login_submit_btn" class="p-2 w-1/3 bg-danger-light text-lg font-bold text-gray-200"> Register </button>
                        
                     </form>
                 </div>

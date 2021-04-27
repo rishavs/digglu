@@ -19,6 +19,7 @@ import Searchbar    from './views/components/Searchbar.js'
 import Filtersbar   from './views/components/Filtersbar.js'
 import SideBar      from './views/components/SideBar.js'
 import Bottombar    from './views/components/Bottombar.js' 
+import Flashbar     from './views/components/Flashbar.js' 
 
 // List of supported routes. Any url other than these routes will throw a 404 error
 const routes = {
@@ -56,6 +57,7 @@ const router = async () => {
     // Lazy load view element:
     const searchbar_div     = null || document.getElementById('searchbar_container');
     const filtersbar_div    = null || document.getElementById('filtersbar_container');
+    const flashbar_div      = null || document.getElementById('flashbar_container');
     const content_div       = null || document.getElementById('pagecontent_container');
     const sidebar_div       = null || document.getElementById('sidebar_container');
     const footer_div        = null || document.getElementById('footer_container');
@@ -65,6 +67,8 @@ const router = async () => {
     await Searchbar.control();
     filtersbar_div.innerHTML = await Filtersbar.render();
     await Filtersbar.control();
+    flashbar_div.innerHTML = await Flashbar.render();
+    await Flashbar.control();
     sidebar_div.innerHTML = await SideBar.render();
     await SideBar.control();
     footer_div.innerHTML = await Bottombar.render();
