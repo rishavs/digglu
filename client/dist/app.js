@@ -112,7 +112,7 @@ const router = async () => {
 
     document.getElementById('progress-bar').style.transition='width 0.2s';
     progressbar_setWidth('100%')
-  
+ 
 }
 
 // reset the progress bar to 0 when trasition is over

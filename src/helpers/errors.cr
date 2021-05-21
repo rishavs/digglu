@@ -24,8 +24,8 @@ module Digglu
             rescue ex : AuthenticationError
                 Log.error(exception: ex) { ex.message.to_s }
                 context.response.status_code = 401
-                usercookie = HTTP::Cookie.new("usertoken", "none", "/", Time.utc + 12.hours)
-                context.response.headers["Set-Cookie"] = usercookie.to_set_cookie_header 
+                # usercookie = HTTP::Cookie.new("usertoken", "none", "/", Time.utc + 12.hours)
+                # context.response.headers["Set-Cookie"] = usercookie.to_set_cookie_header 
                 res = {
                     "status" => 401,
                     "message" => ex.message.to_s

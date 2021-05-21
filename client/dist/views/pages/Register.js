@@ -60,7 +60,7 @@ let Register = {
                         </div>
                     </div>
 
-                    <button type="submit" id="register_submit_btn" class="p-2 w-1/3 bg-danger-light text-lg font-bold text-gray-200"> Register </button>
+                    <button type="button" id="register_submit_btn" class="p-2 w-1/3 bg-danger-light text-lg font-bold text-gray-200"> Register </button>
                     <button type="button" class="inline-flex items-center px-4 py-2 border border-transparent text-base leading-6 font-medium rounded-md text-white bg-rose-600 hover:bg-rose-500 focus:border-rose-700 active:bg-rose-700 transition ease-in-out duration-150 cursor-not-allowed" disabled="">
                         <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                             <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
