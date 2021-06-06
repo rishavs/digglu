@@ -7,7 +7,7 @@ let logoutUser = async () => {
         }
     };
     try {
-        const response = await fetch(`http://localhost:3000/logout`, options)
+        const response = await fetch(`http://localhost:3000/api/v1/user/signout`, options)
         console.log(response)
         const json = await response.json();
         console.log(json)

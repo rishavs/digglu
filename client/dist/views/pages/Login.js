@@ -6,6 +6,7 @@ let login_user = async (email, password) => {
     const options = {
         method: 'POST',
         credentials: 'include',
+        // mode: 'no-cors',
         headers: {
             'Content-Type': 'application/json',
             'Accept-Encoding': 'gzip'
@@ -13,7 +14,7 @@ let login_user = async (email, password) => {
         body: JSON.stringify(payload)
     };
     try {
-        const response = await fetch(`http://localhost:3000/api/v1/user/signin`, options)
+        const response = await fetch(`http://127.0.0.1:3000/api/v1/user/signin`, options)
         const json = await response.json();
         console.log(json)
         return json

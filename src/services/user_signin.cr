@@ -72,7 +72,12 @@ module Digglu
             sessionid, result2[:unqid]
         
         # Setting cookie with expiration time of 24 hrs
-        usercookie = HTTP::Cookie.new("usertoken", sessionid, "/", Time.utc + 24.hours)
+        usercookie = HTTP::Cookie.new("usertoken", sessionid, "/", Time.utc + 2.days)
+        usercookie.http_only = true
+        # usercookie.domain = "127.0.0.1"
+        usercookie.secure = true
+        usercookie.samesite = HTTP::Cookie::SameSite.new(0)
+
 
         res = {
             "status"    => "success",

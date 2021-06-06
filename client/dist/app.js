@@ -1,5 +1,7 @@
 "use strict";
 
+var serverAddress = 'https://0.0.0.0:3000/'
+
 import Utils        from './services/Utils.js'
 
 import Home         from './views/pages/Home.js'
