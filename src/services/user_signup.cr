@@ -6,55 +6,64 @@ module Digglu
         property user_password  : String
     end
 
-    def self.user_signup(ctx : HTTP::Server::Context)
-
+    def self.user_signup (ctx : HTTP::Server::Context)
+        begin
             payload = User_signup_model.from_json(ctx.request.body.not_nil!.gets_to_end)
 
             # Cleanup data
-            email        = payload.user_email.lstrip.rstrip.downcase
+            email        = payload.user_email.downcase
             rawpassword  = payload.user_password
-
+            
             # Validate data
-            reg = Regex.new("^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$")
-            if !reg.matches?(email)
-                raise BadRequestError.new()
+            if !validate_as_email(email) || 
+                !validate_as_password(rawpassword)
+                raise Exception.new("Input data validation failed")
             end
-            if !(8 <= rawpassword.size <= 64)
-                raise ValidationError.new()
-            end
-
+    
             # Generate some data
-            unqid = UUID.random.to_s
+            userid  = UUID.random.to_s
             encpass = Crypto::Bcrypt::Password.create(rawpassword, cost: 10)
-            thumb = "https://robohash.org/set_set4/128x128/#{unqid}.jpeg"
+            thumb   = "https://robohash.org/set_set4/128x128/#{userid}.jpeg"
             
             # DB operations
-            query1 =  "insert into users (unqid, user_thumb) 
-                values ($1, $2)
-                Returning unqid"
-            result1 = DATA.scalar query1,
-                unqid, thumb
+            query   =  "insert into users (unqid, thumb, email, password) 
+                    values ($1, $2, $3, $4)
+                    Returning unqid"
+            result  = DATA.scalar query,
+                userid, thumb, email, encpass
+    
+        rescue ex
+            case ex.message.to_s
+            when "duplicate key value violates unique constraint \"users_email_key\""
+                Log.notice(exception: ex) { ex.message }
+                res =  {
+                    "status"     => "error",
+                    "message"    => "Non unique email entered",
+                }
+                # ctx.response.respond_with_status(401, res.to_json)
+                ctx.response.status_code  = 406
+            else
+                Log.error(exception: ex) { ex.message }
+                res =  {
+                    "status"     => "error",
+                    "message"    => "502 Orcs have laid siege to the server. Please try again after some time",
+                }
+                ctx.response.status_code  = 502
+            end
 
-            query2 =  "insert into AUTH_BASIC (user_id_ref, user_email, user_password) 
-                values ($1, $2, $3)
-                Returning user_id_ref"
-            result2 = DATA.scalar query2,
-                result1.to_s, email, encpass
-
-            Log.info { "User with email " + result2.to_s + "was successfully created" }
+        else
+            Log.info { "New accounbt with email " + email + " was successfully created" }
             res = {
                 "status"    => "success",
-                "message"   => "The user was sucessfully registered",
+                "message"   => "User account was sucessfully registered",
                 "data"      => {
-                    "unqid"         => result2.to_s,
+                    "unqid" =>  result.to_s,
                 }
             }
-            # pp res.to_json
-            # ctx.response.status = "OK"
-            ctx.response.print(res.to_json)
-        # end
+            ctx.response.status_code  = 202
+        end
 
-
+        ctx.response.print(res.to_json)
     end
-    
 end
+

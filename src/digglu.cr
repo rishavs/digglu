@@ -4,10 +4,7 @@ require "dotenv"
 require "pg"
 require "crypto/bcrypt/password"
 require "uuid"
-require "jwt"
 require "json"
-require "digest"
-require "helmet"
 require "log"
 
 require "./helpers/*"
@@ -36,7 +33,7 @@ module Digglu
     }
 
     server = HTTP::Server.new([
-        Digglu::ErrorHandler.new,
+        # Digglu::ErrorHandler.new,
         HTTP::LogHandler.new,
         HTTP::CompressHandler.new,
 
@@ -69,7 +66,7 @@ module Digglu
             if services.has_key?(service) 
                 services[service].call ctx
             else
-                ctx.response.respond_with_status(404, "Now move along, will ya?")
+                ctx.response.respond_with_status(404, "Wrong api url. Remember to remove this later. Willya?")
             end
         end
     end

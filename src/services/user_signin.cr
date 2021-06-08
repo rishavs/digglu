@@ -1,100 +1,109 @@
 module Digglu
 
      def self.user_signin(ctx : HTTP::Server::Context)
+        begin
 
-        payload = User_signup_model.from_json(ctx.request.body.not_nil!.gets_to_end)
+            payload = User_signup_model.from_json(ctx.request.body.not_nil!.gets_to_end)
 
-        # Cleanup data
-        form_email        = payload.user_email.lstrip.rstrip.downcase
-        form_rawpassword  = payload.user_password
-
-        # Validate data
-        reg = Regex.new("^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+[.][A-Za-z]+$")
-        if !reg.matches?(form_email)
-            raise BadRequestError.new()
-        end
-        if !(8 <= form_rawpassword.size <= 64)
-            raise ValidationError.new()
-        end
-
-        # Get the password for the comparison
-        query1 = "select USER_ID_REF, user_email, user_password 
-            from auth_basic where user_email = $1"
-
-        result1 = DATA.query_one? query1, 
-            form_email, 
-            as: {user_id: String, user_email: String, user_password: String}
-        
-        if !result1
-            raise AuthenticationError.new("The Username or Password is wrong") 
-        end
-
-        if !Crypto::Bcrypt::Password.new(result1[:user_password]).verify(form_rawpassword) # => true
-            puts "The password DOESN'T matches"
-            raise AuthenticationError.new("The Username or Password is wrong 1") 
-        end   
-
-        puts "The password matches"
-
-        # Get the account details
-        query2 = "select unqid, user_nick, user_flair, user_thumb, user_role, user_level, user_stars,
-            banned_till from users where unqid = $1"
+            # Cleanup data
+            email        = payload.user_email.downcase
+            rawpassword  = payload.user_password
             
-        result2 = DATA.query_one? query2, 
-            result1[:user_id], 
-            as: {unqid: String, user_nick: String, user_flair: String, user_thumb: String,  user_role: String, user_level: String, user_stars: Int, banned_till: Time | Nil}
-        
-        puts result2
-        p! result2
-
-        if !result2            
-            raise AuthenticationError.new("The Username or Password is wrong 2")  
-        end
-
-        # Check if user is banned
-        if banned_time = result2[:banned_till]
-            if (banned_time < Time.utc)
-                raise AuthorizationError.new("User has been banned till #{result2[:banned_till].try &.to_s}")
+            # Validate data
+            if !validate_as_email(email) || 
+                !validate_as_password(rawpassword)
+                raise Exception.new("Input data validation failed")
             end
+
+            # Get the password for the comparison
+            query1 = "select unqid, email, password, nick, flair, thumb, role, level, stars,
+                banned_till
+                from users where email = $1"
+
+            result1 = DATA.query_one query1, 
+                email, 
+                as: {unqid: String, email: String, password: String, nick: String, flair: String, thumb: String, role: String, level: String, stars: Int, banned_till: Time | Nil}
+            
+            if !Crypto::Bcrypt::Password.new(result1[:password]).verify(rawpassword)
+                raise AuthenticationError.new("Wrong password used in the login attempt with email " + email )
+            end   
+
+            # Check if user is banned
+            if result1[:banned_till].try &.>= Time.utc
+                raise AuthorizationError.new("Signin not allowed as user with email #{email} has been banned till #{result1[:banned_till].try &.to_s}")
+            end
+
+            # Generate the session id
+            sessionid = Random::Secure.urlsafe_base64(128).delete('-').delete('_').byte_slice(0, 128)
+
+            # Insert session into session store
+            query2 = "insert into sessions (unqid, user_id) 
+                values ($1, $2)
+                Returning unqid"
+
+            result2 = DATA.scalar query2,
+                sessionid, result1[:unqid]
+        
+        rescue ex : DB::NoResultsError
+            Log.notice { ex.message.to_s }
+            res =  {
+                "status"     => "error",
+                "message"    => "The Username or Password is wrong",
+            }
+            ctx.response.status_code  = 401
+
+        rescue ex : Digglu::AuthenticationError
+            Log.notice { ex.message.to_s }
+            res =  {
+                "status"     => "error",
+                "message"    => "The Username or Password is wrong",
+            }
+            ctx.response.status_code  = 401
+
+        rescue ex : Digglu::AuthorizationError
+            Log.notice { ex.message.to_s }
+            res =  {
+                "status"     => "error",
+                "message"    => ex.message.to_s,
+            }
+            ctx.response.status_code  = 403
+        rescue ex
+            Log.error(exception: ex) { ex.message }
+            res =  {
+                "status"     => "error",
+                "message"    => "502 Orcs have laid siege to the server. Please try again after some time",
+            }
+            ctx.response.status_code  = 502
+
+        else
+            Log.info {"User with email " + email + " was successfully signed in"}
+            res = {
+                "status"    => "success",
+                "message"   => "The user was sucessfully signed in",
+                "data"      => {
+                    "auth_type" => "basic",
+                    "email"     => result1[:email],
+                    "nick"      => result1[:nick],
+                    "thumb"     => result1[:thumb],
+                    "flair"     => result1[:flair],
+                    "role"      => result1[:role],
+                    "level"     => result1[:level],
+                    "stars"     => result1[:stars],
+                }
+            }
+
+            # Setting cookie with expiration time of 24 hrs
+            usercookie = HTTP::Cookie.new("sessiontoken", sessionid, "/", Time.utc + 2.days)
+            usercookie.http_only = true
+            # usercookie.domain = "127.0.0.1"
+            usercookie.secure = true
+            usercookie.samesite = HTTP::Cookie::SameSite.new(0)
+            
+            ctx.response.headers["Set-Cookie"] = usercookie.to_set_cookie_header 
+            ctx.response.status_code  = 202
         end
 
-        # Generate the session id
-        sessionid = Random::Secure.urlsafe_base64(128).byte_slice(0, 128)
-
-        # Insert session into session store
-        # Allowing multiple entries for each user. unquote "where email = '#{email}'" clause otherwise
-        # Max number of concurrent sessions per user = 5??
-        query3 = "insert into sessions (unqid, user_id) 
-            values ($1, $2)
-            Returning unqid"
-
-        result3 = DATA.scalar query3,
-            sessionid, result2[:unqid]
-        
-        # Setting cookie with expiration time of 24 hrs
-        usercookie = HTTP::Cookie.new("usertoken", sessionid, "/", Time.utc + 2.days)
-        usercookie.http_only = true
-        # usercookie.domain = "127.0.0.1"
-        usercookie.secure = true
-        usercookie.samesite = HTTP::Cookie::SameSite.new(0)
-
-
-        res = {
-            "status"    => "success",
-            "message"   => "The user was sucessfully logged in",
-            "data"      => {
-                "auth_type"     => "basic",
-                "user_email"    => result1[:user_email],
-                "user_nick"     => result2[:user_nick],
-                "user_thumb"    => result2[:user_thumb],
-                "user_flair"    => result2[:user_flair],
-                "user_role"     => result2[:user_role],
-                "user_level"    => result2[:user_level],
-                "user_stars"    => result2[:user_stars],
-            }
-        }
-        puts res
-        ctx.response.headers["Set-Cookie"] = usercookie.to_set_cookie_header 
         ctx.response.print(res.to_json)
+
     end
 end

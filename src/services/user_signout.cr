@@ -1,30 +1,39 @@
 module Digglu
 
     def self.user_signout(ctx : HTTP::Server::Context)
+        begin
+            
+            token = ctx.request.cookies["sessiontoken"].value
 
-        token = ctx.request.cookies["usertoken"].value
+            # Clear session store
+            query = "delete from sessions 
+                where unqid = $1
+                Returning user_id"
 
-        # Clear session store
-        query = "delete from sessions 
-            where unqid = $1
-            Returning FOUND"
+            result = DATA.scalar(query, 
+                token).as(String)
 
-        result = DATA.exec(query, 
-            token)
+        rescue ex
+            Log.error(exception: ex) { ex.message }
+            res =  {
+                "status"     => "error",
+                "message"    => "502 Orcs have laid siege to the server. Please try again after some time",
+            }
+            ctx.response.status_code  = 502
 
-        puts result
-        pp! result
+        else
+            Log.info {"User with email " + result + " was successfully signed out"}
+            # clear cookies on browser
+            res = {
+                "status"    => "success",
+                "message"   => "The user was sucessfully logged out"
+            }
 
-        # clear cookies on browser
-        res = {
-            "status"    => "success",
-            "message"   => "The user was sucessfully logged out"
-        }
+            usercookie = HTTP::Cookie.new("sessiontoken", "none", "/", Time.utc)
+            ctx.response.headers["Set-Cookie"] = usercookie.to_set_cookie_header 
+            ctx.response.status_code  = 202
+        end
 
-        pp! res
-
-        usercookie = HTTP::Cookie.new("usertoken", "none", "/", Time.utc + 12.hours)
-        ctx.response.headers["Set-Cookie"] = usercookie.to_set_cookie_header 
         ctx.response.print(res.to_json)
 
     end    
