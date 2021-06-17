@@ -32,3 +32,16 @@ functions["f"].call "bar"
 NGinx;
 http { gzip on; } server { listen 443 ssl; listen [::]:443 ssl; server_name nightly.link; location / { proxy_pass http://localhost:3098; } }
 http { gzip on; server { listen 443 ssl; listen [::]:443 ssl; server_name nightly.link; location / { proxy_pass http://localhost:3098; } }
+
+Auth strategy:
+    - Register
+        - user sends email & password using form
+        - if the email is already used, server sends back error
+        - 
+        - server stores email & encrypted password in db
+        - server cr
+    - Login
+        - user
+    - Refresh
+    - Logout
+

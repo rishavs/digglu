@@ -1,7 +1,5 @@
 "use strict";
 
-var serverAddress = 'https://0.0.0.0:3000/'
-
 import Utils        from './services/Utils.js'
 
 import Home         from './views/pages/Home.js'
@@ -11,9 +9,9 @@ import Error404     from './views/pages/Error404.js'
 import PostNew      from './views/pages/PostNew.js'
 import PostShow     from './views/pages/PostShow.js'
 import Profile      from './views/pages/Profile.js'
-import Login        from './views/pages/Login.js'
-import Logout       from './views/pages/Logout.js'
-import Register     from './views/pages/Register.js'
+import Signin       from './views/pages/Signin.js'
+import Signout      from './views/pages/Signout.js'
+import Signup       from './views/pages/Signup.js'
 import Account      from './views/pages/Account.js'
 import Secret       from './views/pages/Secret.js'
 
@@ -30,18 +28,18 @@ const routes = {
     , '/secret'         : Secret
     , '/p/:param'       : PostShow
     , '/p/new'          : PostNew
-    , '/login'          : Login
-    , '/register'       : Register
-    , '/logout'         : Logout
+    , '/u/me/signin'    : Signin
+    , '/u/me/signup'    : Signup
+    , '/u/me/signout'   : Signout
     , '/t/:param'       : Explore
-    // , '/u/me/'     : Logout
-    , '/me/account'   : Account
-    // , '/u/me/posts'     : Logout
-    // , '/u/me/comments'     : Logout
-    // , '/u/:param/'     : Logout
-    // , '/u/:param/posts'     : Logout
-    // , '/u/:param/comments'     : Logout
-    , '/u/me/profile'     : Profile
+    // , '/u/me/'     : Signout
+    , '/me/account'     : Account
+    // , '/u/me/posts'     : Signout
+    // , '/u/me/comments'     : Signout
+    // , '/u/:param/'     : Signout
+    // , '/u/:param/posts'     : Signout
+    // , '/u/:param/comments'     : Signout
+    , '/u/me/profile'   : Profile
 };
 
 const progressbar_setWidth = (p) => {
@@ -96,10 +94,10 @@ const router = async () => {
     console.log(page)
 
     // Client side Auth Guard
-    // If the page has a onlyAllow property, reoute the page appropriately or send user to login page
+    // If the page has a onlyAllow property, reoute the page appropriately or send user to Signin page
     if (page.onlyAllow == 'user') {
         // console.log('Only User')
-        page = window.localStorage['_user_email'] ? page : Login
+        page = window.localStorage['_user_email'] ? page : Signin
 
     } else if (page.onlyAllow == 'anon') {
         // console.log('Only Anon')

@@ -98,13 +98,13 @@ let Searchbar = {
                     </div>
                     <div id="login_header_container">
                         <!-- Login button -->
-                        <a href="/#/login"
+                        <a href="/#/u/me/signin"
                             class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-secondary-light">
                             Login
                         </a> &nbsp
 
                         <!-- Signup Button -->
-                        <a href="/#/register"
+                        <a href="/#/u/me/signup"
                             class="text-white rounded font-lg px-6 py-2 font-semibold bg-pink-400 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                             Register
                         </a>

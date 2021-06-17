@@ -1,4 +1,4 @@
-let login_user = async (email, password) => {
+let signin_user = async (email, password) => {
     const payload = {
         "user_email": email,
         "user_password": password,
@@ -22,16 +22,16 @@ let login_user = async (email, password) => {
         console.log('Error getting documents', err)
     }
 }
-let Login = {
+let Signin = {
     onlyAllow: 'anon',
     state: {},
     load: async function () { },
     render: async function () {
         return /*html*/ `
             <section class="section pageEntry col-span-3 bg-primary-light rounded shadow-md">
-                <div class="px-4 py-16 px-16 space-y-6">
+                <div class="py-16 px-16 space-y-4">
                     <h2 class="text-center text-3xl font-extrabold text-gray-200">
-                        Login to Digglu
+                        Signin to Digglu
                     </h2>
                     <input type="email" id="email_input" placeholder="&nbsp &nbsp Enter your Email Address"
                         class="p-2 text-gray-700 w-full bg-secondary-light rounded placeholder-gray-400 focus:outline-none focus:border-gray-400 focus:bg-background-light"/>
@@ -55,7 +55,7 @@ let Login = {
                         </div>
                     </div>
 
-                    <button type="button" id="login_submit_btn" class="p-2 w-1/3 bg-danger-light text-lg font-bold text-gray-200"> Signin </button>
+                    <button type="button" id="signin_submit_btn" class="p-2 w-1/3 bg-danger-light text-lg font-bold text-gray-200"> Signin </button>
                 </div>
             </section>
         `
@@ -63,7 +63,7 @@ let Login = {
     // All the code related to DOM interactions and controls go in here.
     // This is a separate call as these can be registered only after the DOM has been painted
     control: async function () {
-        document.getElementById("login_submit_btn").addEventListener("click", async () => {
+        document.getElementById("signin_submit_btn").addEventListener("click", async () => {
             let email = document.getElementById("email_input").value;
             let pass = document.getElementById("pass_input").value;
             let flash       = document.getElementById("flashbar");
@@ -79,7 +79,7 @@ let Login = {
                 // progressBar.style.visibility = 'visible';
                 // progressBar.style.width = `60%`;
 
-                let result = await login_user(email, pass)
+                let result = await signin_user(email, pass)
                 if (result.status == 'success') {
 
                     store.setItem('_auth_type', result.data.auth_type)
@@ -97,7 +97,7 @@ let Login = {
                     flash.classList.toggle('hidden')
                     flash_txt.innerText = `${result.message}`
                 } else {
-                    console.log(`Login Failed: ${result.errorMessage}`)
+                    console.log(`Signin Failed: ${result.errorMessage}`)
                 }
 
                 // alert(`User with email ${email.value} was successfully submitted!`)
@@ -106,4 +106,4 @@ let Login = {
     }
 }
 
-export default Login;
+export default Signin;

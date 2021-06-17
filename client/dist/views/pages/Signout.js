@@ -1,4 +1,4 @@
-let logoutUser = async () => {
+let SignoutUser = async () => {
     const options = {
         method: 'POST',
         credentials: 'include',
@@ -17,7 +17,7 @@ let logoutUser = async () => {
     }
 }
 
-let Logout = {
+let Signout = {
     onlyAllow: 'user',
     state: {},
     load: async function () {},
@@ -31,7 +31,7 @@ let Logout = {
         return view
     },
     control: async function () {
-        let result  = await logoutUser()
+        let result  = await SignoutUser()
         let store   = window.localStorage
         if (result.status == "success") {
             store.setItem('_user_email', '')
@@ -46,4 +46,4 @@ let Logout = {
     }
 }
 
-export default Logout;
+export default Signout;
