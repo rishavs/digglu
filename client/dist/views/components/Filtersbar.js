@@ -8,6 +8,7 @@ let Filtersbar = {
                             bg-primary-light focus:outline-none focus:text-gray-200 focus:bg-gray-700">All</a>
                         <a href="/#/about" class="px-3 py-2 rounded-md text-sm font-medium text-gray-200 hover:text-gray-200 hover:bg-primary-light focus:outline-none focus:text-gray-200 focus:bg-gray-700">About(temp)</a>
                         <a href="/#/notapage" class="px-3 py-2 rounded-md text-sm font-medium text-gray-200 hover:text-gray-200 hover:bg-primary-light focus:outline-none focus:text-gray-200 focus:bg-gray-700">Error404(temp)</a>
+                        <a href="/#/oauth" class="px-3 py-2 rounded-md text-sm font-medium text-gray-200 hover:text-gray-200 hover:bg-primary-light focus:outline-none focus:text-gray-200 focus:bg-gray-700">Oauth(temp)</a>
                         <a href="#"
                             class="px-3 py-2 rounded-md text-sm font-medium text-gray-200 hover:text-gray-200 hover:bg-primary-light focus:outline-none focus:text-gray-200 focus:bg-gray-700">Technology</a>
                         <a href="#"

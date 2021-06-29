@@ -1,7 +1,7 @@
 let signin_user = async (email, password) => {
     const payload = {
-        "user_email": email,
-        "user_password": password,
+        "email": email,
+        "password": password,
     }
     const options = {
         method: 'POST',
@@ -14,7 +14,7 @@ let signin_user = async (email, password) => {
         body: JSON.stringify(payload)
     };
     try {
-        const response = await fetch(`http://127.0.0.1:3000/api/v1/user/signin`, options)
+        const response = await fetch(`http://localhost:3000/api/v1/user/signin`, options)
         const json = await response.json();
         console.log(json)
         return json
@@ -64,11 +64,11 @@ let Signin = {
     // This is a separate call as these can be registered only after the DOM has been painted
     control: async function () {
         document.getElementById("signin_submit_btn").addEventListener("click", async () => {
-            let email = document.getElementById("email_input").value;
-            let pass = document.getElementById("pass_input").value;
+            let email       = document.getElementById("email_input").value;
+            let pass        = document.getElementById("pass_input").value;
             let flash       = document.getElementById("flashbar");
             let flash_txt   = document.getElementById("flashbar_text");
-            let store = window.localStorage
+            let store       = window.localStorage
 
             if (email == '' | pass == '') {
                 alert(`The fields cannot be empty`)
@@ -82,17 +82,17 @@ let Signin = {
                 let result = await signin_user(email, pass)
                 if (result.status == 'success') {
 
-                    store.setItem('_auth_type', result.data.auth_type)
-                    store.setItem('_user_email', result.data.user_email)
-                    store.setItem('_user_nick', result.data.user_nick)
-                    store.setItem('_user_flair', result.data.user_flair)
-                    store.setItem('_user_thumb', result.data.user_thumb)
-                    store.setItem('_user_role', result.data.user_role)
-                    store.setItem('_user_level', result.data.user_level)
-                    store.setItem('_user_stars', result.data.user_stars)
+                    store.setItem('auth_type',  result.data.auth_type)
+                    store.setItem('email',      result.data.email)
+                    store.setItem('nick',       result.data.nick)
+                    store.setItem('flair',      result.data.flair)
+                    store.setItem('thumb',      result.data.thumb)
+                    store.setItem('role',       result.data.role)
+                    store.setItem('level',      result.data.level)
+                    store.setItem('stars',      result.data.stars)
 
                     // TODO - if user has a back histroy, do window.history.back()
-                    window.location = '/'
+                    // window.location = '/'
                 } else if (result.status == 401) {
                     flash.classList.toggle('hidden')
                     flash_txt.innerText = `${result.message}`

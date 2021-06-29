@@ -23,9 +23,17 @@
 </head>
 
 <body class="">
+    <!-- Page load bar on top of the page -->
     <div class="progress-bar" id="progress-bar" class="bg-gray-600"></div>
-    <div id="searchbar_container" class=""></div>
-    <div id="filtersbar_container" class=""></div>
+    
+    <!-- Info bar for announcements and stickies -->
+    <div id="screamerbar_container"></div>
+    
+    <!-- Main navbar with search and profile controls -->
+    <div id="searchbar_container"></div>
+    
+    <!-- sub navbar with the post categories and filters -->
+    <div id="filtersbar_container"></div>
 
     <!-- <main>
         <div id="page_container" class="container pageEntry dbg" style="min-height: 500px">
@@ -36,15 +44,16 @@
     </main> -->
     <main class="bg-gray-50">
 
-        <!-- Error Flash -->
-        <div id="flashbar_container">
-        </div>
+        <!-- Boo-boo bar Flash -->
+        <div id="booboobar_container"></div>
+        <!-- Boo-boo bar Flash -->
+        <div id="happybar_container"></div>
 
         <!-- Two columns -->
         <div class="mx-16 flex">
 
             <!-- Content Container Column -->
-            <div id="pagecontent_container" class="w-3/4 my-8 grid grid-cols-3 lg:grid-cols-2 gap-4">
+            <div id="pagecontent_container" class="pageEntry w-3/4 my-8 grid grid-cols-3 lg:grid-cols-2 gap-4">
 
                 <!-- new card test -->
                 <div class="h-36 col-span-3 static flex shadow-md transition duration-500 ease-in-out transform hover:-translate-y-1 hover:shadow-lg">
@@ -106,6 +115,7 @@
     </main>
 
     <div id="footer_container"></div>
+
 </body>
 
 </html>

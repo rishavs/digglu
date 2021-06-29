@@ -1,13 +1,13 @@
 module Digglu
 
-     def self.user_signin(ctx : HTTP::Server::Context)
+     def self.signin(ctx : HTTP::Server::Context)
         begin
 
-            payload = User_signup_model.from_json(ctx.request.body.not_nil!.gets_to_end)
+            payload = User_signx_model.from_json(ctx.request.body.not_nil!.gets_to_end)
 
             # Cleanup data
-            email        = payload.user_email.downcase
-            rawpassword  = payload.user_password
+            email        = payload.email.downcase
+            rawpassword  = payload.password
             
             # Validate data
             if !validate_as_email(email) || 
@@ -33,52 +33,38 @@ module Digglu
                 raise AuthorizationError.new("Signin not allowed as user with email #{email} has been banned till #{result1[:banned_till].try &.to_s}")
             end
 
-            # Generate the session id
-            sessionid = Random::Secure.urlsafe_base64(128).delete('-').delete('_').byte_slice(0, 128)
+            # Generate the session id. We will randomize the length as well
+            sessionid_length    = Random::Secure.rand(128..256)
+            sessionid           = Random::Secure.urlsafe_base64(sessionid_length).delete('-').delete('_').byte_slice(0, 256)
 
             # Insert session into session store
-            query2 = "insert into sessions (unqid, user_id) 
-                values ($1, $2)
+            query2 = "insert into sessions (unqid, user_id, expires_at) 
+                values ($1, $2, $3)
                 Returning unqid"
 
             result2 = DATA.scalar query2,
-                sessionid, result1[:unqid]
+                sessionid, result1[:unqid], Time.utc + ENV["SESSION_EXPIRY_IN_DAYS"].to_i64.days
         
-        rescue ex : DB::NoResultsError
+        rescue ex : DB::NoResultsError | Digglu::AuthenticationError
             Log.notice { ex.message.to_s }
-            res =  {
-                "status"     => "error",
-                "message"    => "The Username or Password is wrong",
-            }
-            ctx.response.status_code  = 401
-
-        rescue ex : Digglu::AuthenticationError
-            Log.notice { ex.message.to_s }
-            res =  {
-                "status"     => "error",
-                "message"    => "The Username or Password is wrong",
-            }
             ctx.response.status_code  = 401
 
         rescue ex : Digglu::AuthorizationError
+            # Ban notice. Needs message to be sent to client
             Log.notice { ex.message.to_s }
             res =  {
-                "status"     => "error",
                 "message"    => ex.message.to_s,
             }
             ctx.response.status_code  = 403
+            ctx.response.print(res.to_json)
+
         rescue ex
             Log.error(exception: ex) { ex.message }
-            res =  {
-                "status"     => "error",
-                "message"    => "502 Orcs have laid siege to the server. Please try again after some time",
-            }
             ctx.response.status_code  = 502
 
         else
             Log.info {"User with email " + email + " was successfully signed in"}
             res = {
-                "status"    => "success",
                 "message"   => "The user was sucessfully signed in",
                 "data"      => {
                     "auth_type" => "basic",
@@ -91,9 +77,19 @@ module Digglu
                     "stars"     => result1[:stars],
                 }
             }
+            payload = {
+                "auth_type"     => "basic",
+                "email"         => result1[:email],
+                "user_id"       => result1[:unqid],
+                "session_id"    => sessionid,
+                "iat"           => Time.utc.to_unix,
+                "exp"           => (Time.utc + ENV["JWT_EXPIRY_IN_HOURS"].to_i32.hours).to_unix,
+            }
+
+            token = JWT.encode(payload, ENV["SECRET_JWT"], JWT::Algorithm::HS256)
 
             # Setting cookie with expiration time of 24 hrs
-            usercookie = HTTP::Cookie.new("sessiontoken", sessionid, "/", Time.utc + 2.days)
+            usercookie = HTTP::Cookie.new("sessiontoken", token, "/", Time.utc + ENV["AUTHCOOKIE_EXPIRY_IN_DAYS"].to_i64.days)
             usercookie.http_only = true
             # usercookie.domain = "127.0.0.1"
             usercookie.secure = true
@@ -101,9 +97,9 @@ module Digglu
             
             ctx.response.headers["Set-Cookie"] = usercookie.to_set_cookie_header 
             ctx.response.status_code  = 202
-        end
+            ctx.response.print(res.to_json)
 
-        ctx.response.print(res.to_json)
+        end
 
     end
 end

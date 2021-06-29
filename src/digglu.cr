@@ -6,6 +6,7 @@ require "crypto/bcrypt/password"
 require "uuid"
 require "json"
 require "log"
+require "jwt"
 
 require "./helpers/*"
 require "./services/*"
@@ -15,8 +16,7 @@ require "./services/*"
 module Digglu
     VERSION = "0.1.0"
 
-    SERVERPORT = 3000
-    SERVERHOST = "0.0.0.0"
+
 
     Dotenv.load
     DATA = DB.open ENV["DATABASE_URL"]
@@ -24,12 +24,10 @@ module Digglu
     cnn_time = DATA.scalar "SELECT NOW()"
     puts "Connected to DB at: #{cnn_time}"
     services = {
-        "GET:/dummy"                => ->dummy(HTTP::Server::Context),
-        "POST:/api/v1/user/signup"  => ->user_signup(HTTP::Server::Context),
-        "POST:/api/v1/user/signin"  => ->user_signin(HTTP::Server::Context),
-        "POST:/api/v1/user/signout" => ->user_signout(HTTP::Server::Context),
-        # "GET:/api/v1/posts/show" => ->user_signout(HTTP::Server::Context),
-        # "GET:/login"    => ->user_login(HTTP::Server::Context),
+        "GET:/dummy"                    => ->dummy(HTTP::Server::Context),
+        "POST:/api/v1/user/signup"      => ->signup(HTTP::Server::Context),
+        "POST:/api/v1/user/signin"      => ->signin(HTTP::Server::Context),
+        "POST:/api/v1/user/signout"     => ->signout(HTTP::Server::Context),
     }
 
     server = HTTP::Server.new([
@@ -38,6 +36,10 @@ module Digglu
         HTTP::CompressHandler.new,
 
     ]) do |ctx|
+
+        pp! tokens  = ctx.request.cookies
+        # pp! payload = ctx.request.body ? ctx.request.body.try &.gets_to_end : nil
+        pp! headers = ctx.request.headers
         # pp ctx.request.method
         # pp ctx.request.path
         # pp ctx.request.query
@@ -59,9 +61,6 @@ module Digglu
         if ctx.request.method.downcase == "options"
             ctx.response.status_code = 200
         else
-        # if ctx.request.method == "OPTIONS"
-        #     ctx.response.status_code = 200
-        # else
             service = ctx.request.method + ":" + ctx.request.path
             if services.has_key?(service) 
                 services[service].call ctx
@@ -71,7 +70,7 @@ module Digglu
         end
     end
 
-    address = server.bind_tcp SERVERPORT
+    address = server.bind_tcp ENV["SERVERHOST"], ENV["SERVERPORT"].to_i32
     puts "Server listening on http://#{address}"
     puts "------------------------------------------------"
     server.listen

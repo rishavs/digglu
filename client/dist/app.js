@@ -14,18 +14,22 @@ import Signout      from './views/pages/Signout.js'
 import Signup       from './views/pages/Signup.js'
 import Account      from './views/pages/Account.js'
 import Secret       from './views/pages/Secret.js'
+import OauthTest    from './views/pages/OauthTest.js'
 
+import Screamerbar  from './views/components/Screamerbar.js'
 import Searchbar    from './views/components/Searchbar.js'
 import Filtersbar   from './views/components/Filtersbar.js'
+import Booboobar    from './views/components/Booboobar.js' 
+import Happybar    from './views/components/Happybar.js' 
 import SideBar      from './views/components/SideBar.js'
 import Bottombar    from './views/components/Bottombar.js' 
-import Flashbar     from './views/components/Flashbar.js' 
 
 // List of supported routes. Any url other than these routes will throw a 404 error
 const routes = {
     '/'                 : Home
     , '/about'          : About
     , '/secret'         : Secret
+    , '/oauth'           : OauthTest
     , '/p/:param'       : PostShow
     , '/p/new'          : PostNew
     , '/u/me/signin'    : Signin
@@ -55,22 +59,34 @@ const router = async () => {
 
 
     // Lazy load view element:
+    const screamerbar_div   = null || document.getElementById('screamerbar_container');
     const searchbar_div     = null || document.getElementById('searchbar_container');
     const filtersbar_div    = null || document.getElementById('filtersbar_container');
-    const flashbar_div      = null || document.getElementById('flashbar_container');
+    const booboobar_div     = null || document.getElementById('booboobar_container');
+    const happybar_div      = null || document.getElementById('happybar_container');
     const content_div       = null || document.getElementById('pagecontent_container');
     const sidebar_div       = null || document.getElementById('sidebar_container');
     const footer_div        = null || document.getElementById('footer_container');
     
     // Render the Header, Flash and footer of the page
+    screamerbar_div.innerHTML = await Screamerbar.render();
+    await Screamerbar.control();
+
     searchbar_div.innerHTML = await Searchbar.render();
     await Searchbar.control();
+
     filtersbar_div.innerHTML = await Filtersbar.render();
     await Filtersbar.control();
-    flashbar_div.innerHTML = await Flashbar.render();
-    await Flashbar.control();
+
+    booboobar_div.innerHTML = await Booboobar.render();
+    await Booboobar.control();
+
+    happybar_div.innerHTML = await Happybar.render();
+    await Happybar.control();
+
     sidebar_div.innerHTML = await SideBar.render();
     await SideBar.control();
+
     footer_div.innerHTML = await Bottombar.render();
     await Bottombar.control();
 

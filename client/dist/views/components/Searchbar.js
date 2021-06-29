@@ -128,7 +128,7 @@ let Searchbar = {
             console.log(`User Logged in. Setting Header for profile`);
             document.getElementById('login_header_container').classList.add('hidden');
         } else {
-            console.log(`User not loged in. Setting Header for login`);
+            console.log(`User not logged in. Setting Header for login`);
             document.getElementById('profile_header_container').classList.add('hidden');
         }
     }

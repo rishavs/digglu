@@ -1,6 +1,6 @@
 module Digglu
 
-    def self.user_signout(ctx : HTTP::Server::Context)
+    def self.signout(ctx : HTTP::Server::Context)
         begin
             
             token = ctx.request.cookies["sessiontoken"].value

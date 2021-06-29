@@ -1,7 +1,9 @@
+import Utils from "../../services/Utils.js";
+
 let create_user = async (email, password) => {
     const payload = {
-        "user_email"    : email,
-        "user_password" : password,
+        "email"    : email,
+        "password" : password,
     };
     const options = {
         method: 'POST',
@@ -15,12 +17,9 @@ let create_user = async (email, password) => {
     };
     try {
         const response = await fetch(`http://localhost:3000/api/v1/user/signup`, options)
-        console.log(response.status)
-        const json = await response.json()
-        console.log(json)
-        return json
+        return response
     } catch (err) {
-        console.log('ERROR RETURED: ', err)
+        console.log('ERROR RETURNED: ', err)
     }
 }
 
@@ -84,30 +83,37 @@ let Signup = {
     // This is a separate call as these can be registered only after the DOM has been painted
     control: async function () {
         document.getElementById("signup_submit_btn").addEventListener ("click", async () => {
-            let email       = document.getElementById("email_input").value;
-            let pass        = document.getElementById("pass_input").value;
-            let repeatPass  = document.getElementById("repeat_pass_input").value;
-            let flash       = document.getElementById("flashbar");
-            let flash_txt   = document.getElementById("flashbar_text");
+            let email           = document.getElementById("email_input").value;
+            let pass            = document.getElementById("pass_input").value;
+            let repeatPass      = document.getElementById("repeat_pass_input").value;
+            let booboobar       = document.getElementById("booboobar");
+            let boobootxt       = document.getElementById("booboobar_text");
             if (pass != repeatPass) {
-                // alert (`The passwords dont match`)
-                flash.classList.toggle('hidden')
-                flash_txt.innerText = `The Passwords don't match`
+                alert (`The passwords dont match`)
+                // flash.classList.toggle('hidden')
+                // flash_txt.innerText = `The Passwords don't match`
             } else if (email =='' | pass == '' | repeatPass == '') {
-                flash.classList.toggle('hidden')
-                flash_txt.innerText = `The fields cannot be empty`
+                alert (`Fields cannot be empty`)
+                // flash.classList.toggle('hidden')
+                // flash_txt.innerText = `The fields cannot be empty`
             } else {
-                let result = await create_user(email, pass)
-                if (result.status == 'success') {
-                // if (result.success == true) {
-                    alert (`User with emailid ${email} was successfully created`)
-                } else {
-                    alert (`Failed: ${result.message}`)
-                    flash.classList.toggle('hidden')
-                    flash_txt.innerText = `${result.message}`
-                }
+                let response = await create_user(email, pass)
+                switch (response.status) {
+                    case 202:
+                        Utils.redirectTo({path: `/#/about`, happinessmsg: `User with id < ${email} > was successfully created`})
+                        break;
+                    case 406:
+                        var result = await response.json()
+                        console.log(result)
+                        booboobar.classList.remove('hidden')
+                        boobootxt.innerText = `${result.message}`
+                        break;
+                    default:
+                        booboobar.classList.remove('hidden')
+                        boobootxt.innerText = `502 orcs are laying siege to your castle!`
 
-                // alert(`User with email ${email.value} was successfully submitted!`)
+                        // Utils.redirectTo(`/#/about`, `this is a boo boo doll`)
+                 }
             }    
         })
     }

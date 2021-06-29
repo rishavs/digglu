@@ -1,4 +1,4 @@
-let Secret = {
+let About = {
     onlyAllow: 'all',
     state:{},
     load : function () {},
@@ -15,4 +15,4 @@ let Secret = {
         
 }
 
-export default Secret;
+export default About;

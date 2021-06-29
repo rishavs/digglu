@@ -9,7 +9,7 @@ module Digglu
     end
     class DataConflictError     < Exception
     end
-    class ForbiddenError < Exception
+    class ForbiddenError        < Exception
     end
     class NotFoundError         < Exception
     end
