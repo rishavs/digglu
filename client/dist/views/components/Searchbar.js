@@ -18,7 +18,7 @@ let Searchbar = {
                         </button>
                     </form>
 
-                    <div id="profile_header_container" class="flex">
+                    <div id="profile_header_container" class="hidden flex">
 
                         <!-- This example requires Tailwind CSS v2.0+ -->
                         <div class="relative mr-4">
@@ -44,15 +44,13 @@ let Searchbar = {
                                 </div>
                             </div>
                         </div>
-
-<!-- 
+                        <!-- 
                         <a href="#" class="static right-0 px-4 py-1 mr-4 rounded-md text-sm font-medium text-white hover:text-white hover:bg-secondary-light focus:outline-none focus:text-white focus:bg-gray-700 ">                         
                              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-300 pt-2" viewBox="0 0 20 20" fill="none"  stroke="currentColor">
                             <path fill-rule="evenodd" d="M18 3a1 1 0 00-1.447-.894L8.763 6H5a3 3 0 000 6h.28l1.771 5.316A1 1 0 008 18h1a1 1 0 001-1v-4.382l6.553 3.276A1 1 0 0018 15V3z" clip-rule="evenodd" />
                             </svg>
-                        </a> -->
-
-                        <!-- <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute w-60 px-5 py-3 dark:bg-gray-800 bg-white rounded-lg shadow border dark:border-transparent mt-5">
+                        </a>
+                        <div x-show="open" x-transition:enter="transition ease-out duration-100" x-transition:enter-start="transform opacity-0 scale-95" x-transition:enter-end="transform opacity-100 scale-100" x-transition:leave="transition ease-in duration-75" x-transition:leave-start="transform opacity-100 scale-100" x-transition:leave-end="transform opacity-0 scale-95" class="absolute w-60 px-5 py-3 dark:bg-gray-800 bg-white rounded-lg shadow border dark:border-transparent mt-5">
                             <ul class="space-y-3 dark:text-white">
                                 <li class="font-medium">
                                 <a href="#" class="flex items-center transform transition-colors duration-200 border-r-4 border-transparent hover:border-indigo-700">
@@ -68,7 +66,7 @@ let Searchbar = {
                             <button id="profile_header_btn"
                                 class="px-1 py-1 rounded-md text-sm font-medium text-white hover:text-white hover:bg-secondary-light focus:outline-none focus:bg-secondary-light">
                                     <img class="w-10 h-10 inline border border-gray-600 rounded-md" src="avatar.jpg" />
-                                    <span class="px-2"> Hi ${window.localStorage['_user_nick']}</span>
+                                    <span class="px-2"> Hi ${window.localStorage['nick']}</span>
 
                             </button>
                             <div id="profile_header_dropdown" class="hidden origin-top-right absolute right-0 mt-1 w-56 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 focus:outline-none" role="menu" aria-orientation="vertical" aria-labelledby="menu-button" tabindex="-1">
@@ -124,13 +122,23 @@ let Searchbar = {
             document.getElementById('profile_header_dropdown').classList.toggle('hidden')
         });
 
-        if (localStorage.getItem('_user_email') !== null) {
-            console.log(`User Logged in. Setting Header for profile`);
-            document.getElementById('login_header_container').classList.add('hidden');
-        } else {
-            console.log(`User not logged in. Setting Header for login`);
-            document.getElementById('profile_header_container').classList.add('hidden');
+        const updateSearchBarOnLogin = () => {
+            if (localStorage.getItem('email') !== null) {
+                console.log(`User Logged in. Setting Header for profile`);
+                document.getElementById('login_header_container').classList.add('hidden');
+                document.getElementById('profile_header_container').classList.remove('hidden');
+            } else {
+                console.log(`User not logged in. Setting Header for login`);
+                document.getElementById('profile_header_container').classList.add('hidden');
+                document.getElementById('login_header_container').classList.remove('hidden');
+            }
+
         }
+
+        // Listen on localStorage changes
+        // When local storage changes, check if user is logged in and
+        // update the searchbar accordingly
+        window.addEventListener('storage', updateSearchBarOnLogin());
     }
 
 }

@@ -50,7 +50,7 @@ module Digglu
 
         ctx.response.content_type                                   = "application/json"
         ctx.response.headers["Access-Control-Request-Headers"]      = "Content-Type, application/json"
-        ctx.response.headers["Access-Control-Allow-Origin"]         = "https://127.0.0.1:8080"
+        ctx.response.headers["Access-Control-Allow-Origin"]         = "https://localhost:8080"
         ctx.response.headers["Access-Control-Allow-Credentials"]    = "true"
         ctx.response.headers["Access-Control-Allow-Methods"]        = "POST, GET, OPTIONS"
         ctx.response.headers["Access-Control-Allow-Content-Type"]   = "application/json"

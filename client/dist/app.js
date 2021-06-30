@@ -16,6 +16,7 @@ import Account      from './views/pages/Account.js'
 import Secret       from './views/pages/Secret.js'
 import OauthTest    from './views/pages/OauthTest.js'
 
+import Progressbar  from './views/components/Progressbar.js'
 import Screamerbar  from './views/components/Screamerbar.js'
 import Searchbar    from './views/components/Searchbar.js'
 import Filtersbar   from './views/components/Filtersbar.js'
@@ -29,7 +30,7 @@ const routes = {
     '/'                 : Home
     , '/about'          : About
     , '/secret'         : Secret
-    , '/oauth'           : OauthTest
+    , '/oauth'          : OauthTest
     , '/p/:param'       : PostShow
     , '/p/new'          : PostNew
     , '/u/me/signin'    : Signin
@@ -46,19 +47,21 @@ const routes = {
     , '/u/me/profile'   : Profile
 };
 
-const progressbar_setWidth = (p) => {
-    const progressBar = document.getElementById('progress-bar');
-    progressBar.style.visibility = 'visible';
-    progressBar.style.width = `${p}`;
-}
+// const progressbar_setWidth = (p) => {
+//     const progressBar = document.getElementById('progress-bar');
+//     progressBar.style.transition='width 0.5s'; 
+//     progressBar.style.visibility = 'visible';
+//     progressBar.style.width = `${p}`;
+// }
 
 // The router code. Takes a URL, checks against the list of supported routes and then renders the corresponding content page.
 const router = async () => {
-    document.getElementById('progress-bar').style.transition='width 1.5s';
-    progressbar_setWidth('60%')
+    // document.getElementById('progress-bar').style.transition='width 1.5s';
+    Utils.progressbarSetWidth('60%', '1.5s')
 
 
     // Lazy load view element:
+    const progressbar_div   = null || document.getElementById('progressbar_container');
     const screamerbar_div   = null || document.getElementById('screamerbar_container');
     const searchbar_div     = null || document.getElementById('searchbar_container');
     const filtersbar_div    = null || document.getElementById('filtersbar_container');
@@ -68,7 +71,10 @@ const router = async () => {
     const sidebar_div       = null || document.getElementById('sidebar_container');
     const footer_div        = null || document.getElementById('footer_container');
     
-    // Render the Header, Flash and footer of the page
+    // Add all the page components
+    progressbar_div.innerHTML = await Progressbar.render();
+    await Progressbar.control();
+
     screamerbar_div.innerHTML = await Screamerbar.render();
     await Screamerbar.control();
 
@@ -126,28 +132,24 @@ const router = async () => {
     // register page controls
     await page.control();
 
-    document.getElementById('progress-bar').style.transition='width 0.2s';
-    progressbar_setWidth('100%')
+    // document.getElementById('progress-bar').style.transition='width 0.2s';
+    Utils.progressbarSetWidth('100%', '0.2s')
  
 }
 
 // reset the progress bar to 0 when trasition is over
-document.getElementById('progress-bar').addEventListener("transitionend", () => {
-    // If cluase here causes the bar to reset only when the width is 100%
-    if (document.getElementById('progress-bar').style.width == '100%') {
-        document.getElementById('progress-bar').style.visibility = "hidden";
-        document.getElementById('progress-bar').style.width = '0%';
-    }
-});
+document.getElementById('progress-bar').addEventListener("transitionend", Utils.progressbarReset);
 
-// Listen on hash change:
-window.addEventListener('hashchange', router);
 
 // List of all housekeepings services to run on new server request
 const houseKeeping = () => {
     router()
 }
 
+// Listen on hash change:
+window.addEventListener('hashchange', router);
 // Listen on page load:
 window.addEventListener('load', houseKeeping);
+
+
 

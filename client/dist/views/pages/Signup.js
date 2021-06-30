@@ -90,17 +90,14 @@ let Signup = {
             let boobootxt       = document.getElementById("booboobar_text");
             if (pass != repeatPass) {
                 alert (`The passwords dont match`)
-                // flash.classList.toggle('hidden')
-                // flash_txt.innerText = `The Passwords don't match`
             } else if (email =='' | pass == '' | repeatPass == '') {
                 alert (`Fields cannot be empty`)
-                // flash.classList.toggle('hidden')
-                // flash_txt.innerText = `The fields cannot be empty`
             } else {
+                Utils.progressbarSetWidth('60%', '1.5s')
                 let response = await create_user(email, pass)
                 switch (response.status) {
                     case 202:
-                        Utils.redirectTo({path: `/#/about`, happinessmsg: `User with id < ${email} > was successfully created`})
+                        Utils.redirectTo({path: `/#/about`, happinessmsg: `Your account with Email id < ${email} > was successfully created`})
                         break;
                     case 406:
                         var result = await response.json()
@@ -113,7 +110,7 @@ let Signup = {
                         boobootxt.innerText = `502 orcs are laying siege to your castle!`
 
                         // Utils.redirectTo(`/#/about`, `this is a boo boo doll`)
-                 }
+                }
             }    
         })
     }

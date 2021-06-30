@@ -1,9 +1,30 @@
 const Utils = { 
 
     // --------------------------------
-    //  Parse a url and break it into resource, id and verb
+    //  Animate the progressbar
     // --------------------------------
-    redirectTo : ({path, booboomsg, happinessmsg}) => {
+    progressbarSetWidth : (percentage, speed) => {
+        const progressBar = document.getElementById('progress-bar');
+        progressBar.style.transition=`width ${speed}`; 
+        progressBar.style.visibility = 'visible';
+        progressBar.style.width = `${percentage}`;
+    }
+    // --------------------------------
+    //  Reset the progressbar
+    // --------------------------------
+    , progressbarReset : () => {
+        const progressBar = document.getElementById('progress-bar');
+        // The "If" clause here causes the bar to reset only when the width is 100%
+        if (progressBar.style.width == '100%') {
+            progressBar.style.visibility = "hidden";
+            progressBar.style.width = '0%';
+        }
+    }
+
+    // --------------------------------
+    //  Redirect to a given path with optional messages
+    // --------------------------------
+    , redirectTo : ({path, booboomsg, happinessmsg}) => {
         window.location = path 
         window.onhashchange = function() {
               if (booboomsg) {

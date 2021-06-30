@@ -1,3 +1,5 @@
+import Utils from "../../services/Utils.js";
+
 let signin_user = async (email, password) => {
     const payload = {
         "email": email,
@@ -15,9 +17,7 @@ let signin_user = async (email, password) => {
     };
     try {
         const response = await fetch(`http://localhost:3000/api/v1/user/signin`, options)
-        const json = await response.json();
-        console.log(json)
-        return json
+        return response
     } catch (err) {
         console.log('Error getting documents', err)
     }
@@ -66,9 +66,6 @@ let Signin = {
         document.getElementById("signin_submit_btn").addEventListener("click", async () => {
             let email       = document.getElementById("email_input").value;
             let pass        = document.getElementById("pass_input").value;
-            let flash       = document.getElementById("flashbar");
-            let flash_txt   = document.getElementById("flashbar_text");
-            let store       = window.localStorage
 
             if (email == '' | pass == '') {
                 alert(`The fields cannot be empty`)
@@ -79,25 +76,43 @@ let Signin = {
                 // progressBar.style.visibility = 'visible';
                 // progressBar.style.width = `60%`;
 
-                let result = await signin_user(email, pass)
-                if (result.status == 'success') {
+                let response = await signin_user(email, pass)
+                switch (response.status) {
+                    case 202:
+                        var result = await response.json()
+                        console.log(result)
 
-                    store.setItem('auth_type',  result.data.auth_type)
-                    store.setItem('email',      result.data.email)
-                    store.setItem('nick',       result.data.nick)
-                    store.setItem('flair',      result.data.flair)
-                    store.setItem('thumb',      result.data.thumb)
-                    store.setItem('role',       result.data.role)
-                    store.setItem('level',      result.data.level)
-                    store.setItem('stars',      result.data.stars)
+                        window.localStorage.setItem('auth_type',  result.data.auth_type)
+                        window.localStorage.setItem('email',      result.data.email)
+                        window.localStorage.setItem('nick',       result.data.nick)
+                        window.localStorage.setItem('flair',      result.data.flair)
+                        window.localStorage.setItem('thumb',      result.data.thumb)
+                        window.localStorage.setItem('role',       result.data.role)
+                        window.localStorage.setItem('level',      result.data.level)
+                        window.localStorage.setItem('stars',      result.data.stars)
 
-                    // TODO - if user has a back histroy, do window.history.back()
-                    // window.location = '/'
-                } else if (result.status == 401) {
-                    flash.classList.toggle('hidden')
-                    flash_txt.innerText = `${result.message}`
-                } else {
-                    console.log(`Signin Failed: ${result.errorMessage}`)
+                        // TODO - if user has a back history, do window.history.back()
+                        // window.location = '/'
+                        Utils.redirectTo({path: `/#/about`, happinessmsg: `You were successfully logged in`})
+                        break;
+
+                    case 401:
+                        booboobar.classList.remove('hidden')
+                        boobootxt.innerText = `The entered email or password is wrong. Please verify and try again`
+                        break;
+
+                    case 403:
+                        var result = await response.json()
+                        console.log(result)
+                        booboobar.classList.remove('hidden')
+                        boobootxt.innerText = `${result.message}`
+                        break;
+
+                    default:
+                        booboobar.classList.remove('hidden')
+                        boobootxt.innerText = `502 orcs are laying siege to your castle!`
+
+                        // Utils.redirectTo(`/#/about`, `this is a boo boo doll`)
                 }
 
                 // alert(`User with email ${email.value} was successfully submitted!`)
