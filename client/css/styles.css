@@ -6,20 +6,6 @@
     @apply border-solid border-2 border-red-600;
 }
 
-#progress-bar {
-    /* The bar is rendered at the top of the page, overlaid on other components */
-    position: fixed;
-    top: 0;
-    z-index:9999;
-
-    height: 3px;
-    background:red;
-    width: 0%;
- 
-    /* width changes from 0% to n% in this time interval */
-    transition: width 1.2s;
- }
-
  /* Fade in animation for new pages */
 .pageEntry {animation:fade-in 1s;}
 

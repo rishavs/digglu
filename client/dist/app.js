@@ -21,11 +21,15 @@ import Screamerbar  from './views/components/Screamerbar.js'
 import Searchbar    from './views/components/Searchbar.js'
 import Filtersbar   from './views/components/Filtersbar.js'
 import Booboobar    from './views/components/Booboobar.js' 
-import Happybar    from './views/components/Happybar.js' 
+import Happybar     from './views/components/Happybar.js' 
 import SideBar      from './views/components/SideBar.js'
 import Bottombar    from './views/components/Bottombar.js' 
 
-// List of supported routes. Any url other than these routes will throw a 404 error
+
+// --------------------------------
+//  List of supported routes. 
+//  Any url other than these routes will throw a 404 error
+// --------------------------------
 const routes = {
     '/'                 : Home
     , '/about'          : About
@@ -47,21 +51,14 @@ const routes = {
     , '/u/me/profile'   : Profile
 };
 
-// const progressbar_setWidth = (p) => {
-//     const progressBar = document.getElementById('progress-bar');
-//     progressBar.style.transition='width 0.5s'; 
-//     progressBar.style.visibility = 'visible';
-//     progressBar.style.width = `${p}`;
-// }
-
-// The router code. Takes a URL, checks against the list of supported routes and then renders the corresponding content page.
+// --------------------------------
+//  The router code. 
+//  Takes a URL, checks against the list of supported routes and then renders the corresponding content page.
+// --------------------------------
 const router = async () => {
-    // document.getElementById('progress-bar').style.transition='width 1.5s';
-    Utils.progressbarSetWidth('60%', '1.5s')
-
-
+    
     // Lazy load view element:
-    const progressbar_div   = null || document.getElementById('progressbar_container');
+    // const progressbar_div   = null || document.getElementById('progressbar_container');
     const screamerbar_div   = null || document.getElementById('screamerbar_container');
     const searchbar_div     = null || document.getElementById('searchbar_container');
     const filtersbar_div    = null || document.getElementById('filtersbar_container');
@@ -72,8 +69,12 @@ const router = async () => {
     const footer_div        = null || document.getElementById('footer_container');
     
     // Add all the page components
-    progressbar_div.innerHTML = await Progressbar.render();
+
+    // In the curious case of the Progressbar, we will not insert the snippet into the HTML as we had to hardcode it in my index.html file
+    // Otheriwse the starting transition is not working.
+    // progressbar_div.innerHTML = await Progressbar.render();
     await Progressbar.control();
+    await Progressbar.animateStart();
 
     screamerbar_div.innerHTML = await Screamerbar.render();
     await Screamerbar.control();
@@ -95,6 +96,7 @@ const router = async () => {
 
     footer_div.innerHTML = await Bottombar.render();
     await Bottombar.control();
+
 
     // Get the parsed URl from the addressbar
     let request = Utils.parseRequestURL()
@@ -132,14 +134,10 @@ const router = async () => {
     // register page controls
     await page.control();
 
-    // document.getElementById('progress-bar').style.transition='width 0.2s';
-    Utils.progressbarSetWidth('100%', '0.2s')
+    // End the Progress bar animation as the page has finished loading 
+    await Progressbar.animateEnd();
  
 }
-
-// reset the progress bar to 0 when trasition is over
-document.getElementById('progress-bar').addEventListener("transitionend", Utils.progressbarReset);
-
 
 // List of all housekeepings services to run on new server request
 const houseKeeping = () => {

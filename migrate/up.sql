@@ -53,6 +53,18 @@ CREATE TABLE IF NOT EXISTS SESSIONS (
 ALTER TABLE SESSIONS ADD CONSTRAINT SESSIONS_ID_LENGTH CHECK (length(UNQID) BETWEEN 128 and 256);
 
 ----------------------------------------------
+CREATE OR REPLACE FUNCTION create_user(IN thumb TEXT, email EMAIL, password TEXT)
+RETURNS boolean
+LANGUAGE 'plpgsql'
+AS $$
+    BEGIN
+        insert into users (unqid, thumb, email, password) 
+        values (gen_random_uuid(), thumb, email, password)
+        returning FOUND;
+    END;
+$$;
+
+----------------------------------------------
 CREATE TABLE IF NOT EXISTS AUTH_BASIC (
     USER_ID_REF TEXT NOT NULL UNIQUE REFERENCES USERS(UNQID),
     USER_EMAIL EMAIL NOT NULL UNIQUE,

@@ -23,9 +23,10 @@
 </head>
 
 <body class="">
-    <!-- Page load bar on top of the page -->
-    <div class="progress-bar" id="progress-bar" class="bg-gray-600"></div>
-    <div id="progressbar_container"></div>
+    <!-- Progress bar on top of the page -->
+    <div id="progressbar_container">
+        <div id="progressbar" class="h-1 bg-gradient-to-r from-pink-700 via-pink-700 to-white" style="position: fixed; top: 0; z-index:100; width: 0%; transition: width 1s;"></div>
+    </div>
     
     <!-- Info bar for announcements and stickies -->
     <div id="screamerbar_container"></div>
@@ -36,13 +37,6 @@
     <!-- sub navbar with the post categories and filters -->
     <div id="filtersbar_container"></div>
 
-    <!-- <main>
-        <div id="page_container" class="container pageEntry dbg" style="min-height: 500px">
-            <div id="error_flash" class="notification is-danger is-hidden">
-            </div>
-            <article> Loading....</article>
-        </div>
-    </main> -->
     <main class="bg-gray-50">
 
         <!-- Boo-boo bar Flash -->
