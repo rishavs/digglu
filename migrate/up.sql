@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS USERS (
 ALTER TABLE USERS ADD CONSTRAINT USERS_NICK_LENGTH CHECK (length(NICK) BETWEEN 3 and 64);
 ALTER TABLE USERS ADD CONSTRAINT USERS_THUMB_LENGTH CHECK (length(THUMB) BETWEEN 12 and 128);
 ALTER TABLE USERS ADD CONSTRAINT USERS_EMAIL_LENGTH CHECK (length(EMAIL) BETWEEN 8 and 64);
-ALTER TABLE USERS ADD CONSTRAINT USERS_PASSWORD_LENGTH CHECK (length(PASSWORD) BETWEEN 8 and 64);
+ALTER TABLE USERS ADD CONSTRAINT USERS_PASSWORD_LENGTH CHECK (length(PASSWORD) BETWEEN 6 and 64);
 
 CREATE TABLE IF NOT EXISTS SESSIONS (
     UNQID TEXT NOT NULL UNIQUE,
@@ -53,17 +53,30 @@ CREATE TABLE IF NOT EXISTS SESSIONS (
 ALTER TABLE SESSIONS ADD CONSTRAINT SESSIONS_ID_LENGTH CHECK (length(UNQID) BETWEEN 128 and 256);
 
 ----------------------------------------------
-CREATE OR REPLACE FUNCTION create_user(IN thumb TEXT, email EMAIL, password TEXT)
-RETURNS boolean
-LANGUAGE 'plpgsql'
-AS $$
+CREATE OR REPLACE FUNCTION create_user(IN email EMAIL, password TEXT, thumb TEXT)
+RETURNS TABLE (id VARCHAR(40)) AS 
+$BODY$
+    insert into users (unqid, thumb, email, password) 
+    values (gen_random_uuid(), thumb, email, password)
+    returning unqid;
+$BODY$
+LANGUAGE SQL
+    
+    
+CREATE OR REPLACE FUNCTION create_user(IN _email EMAIL, _password TEXT)
+RETURNS text AS 
+$$
+    DECLARE
+        _uuid text ;
     BEGIN
-        insert into users (unqid, thumb, email, password) 
-        values (gen_random_uuid(), thumb, email, password)
-        returning FOUND;
+        _uuid := gen_random_uuid();
+    insert into users (unqid, thumb, email, password) 
+    values (_uuid, _thumb, _email, _password);
+    RETURN _uuid ;
     END;
-$$;
-
+$$
+    LANGUAGE plpgsql
+    VOLATILE
 ----------------------------------------------
 CREATE TABLE IF NOT EXISTS AUTH_BASIC (
     USER_ID_REF TEXT NOT NULL UNIQUE REFERENCES USERS(UNQID),

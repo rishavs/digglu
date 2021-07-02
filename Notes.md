@@ -101,8 +101,8 @@ Purely Session based Auth strategy:
     - Login
         - user sends email & password using form
         - if password doesn't matches, send back error
-        - server creates a sessionid for the that email with n=1 hours expiry time and saves in db 
-        - server creates a cookie containing the sessionid and x=72 days expiry time
+        - server creates a sessionid for the that email with n=4 hours expiry time and saves in db 
+        - server creates a cookie containing the sessionid and x=21 days expiry time
 
     - Auth check for guarded apis
         - user makes any api call which needs auth
@@ -111,7 +111,7 @@ Purely Session based Auth strategy:
         - if no sessionid in the db
             - the cookie is deleted and user is redirected to /login
         - if sessionid has expired
-            - generate new sessionid with new expiry. 
+            - generate new sessionid with new +21 days expiry. 
             - set cookie with updated sessionid with its own updated expiry date
             - continue with requested api function
         - server gets the user details using the sessionid
@@ -122,6 +122,19 @@ Purely Session based Auth strategy:
         - delete the session id from db
         - delete the cookie
         - redirect to /login
+
+OIDC strat;
+    - add provider sdk to page
+    - on user click with signin button, get idtoken
+    - send idtoken to server and validate
+    - if token valid, using the userid for the provider, check
+        - if account doesn't exists for this user. create one. goto next step.
+        - if account exists, create a session and add session id in a cookie
+    - do all auth query checks using session id 
+    - if session cookie doesn't exists, relogin user
+    
+    Note: OIDC only replaces the need for a password. It doesn't provides any authz capabilities. Sessions/jwt are still needed for authz.
+
 
 
 "DO
@@ -153,3 +166,36 @@ BEGIN
     END IF;
 END
 $$;"
+
+Services - Routes:
+
+    getHomepagePosts
+        getHomePagePostsForAnon
+        getHomePagePostsForUser
+        getHomePagePostsLikedByUser
+    getDetailsAndTagsForPost
+        getDetailsAndTagsForPostByAnon
+        getLikedCommentsForUser
+    getCommentsForPost
+    likePostOrComment
+        likePost
+        likeComment
+    authMethods
+        login
+        logout
+        signup
+        whoami
+    misc
+        createPost
+        updatePost
+        deletePost
+        createComment
+        updateComment
+        deletePost
+        addTagToPost
+        upvoteTagForPost
+        downvoteTagForPost
+        flagPost
+        flagComment
+        reportPost
+        reportComment

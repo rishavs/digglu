@@ -19,7 +19,7 @@ module Digglu
 
 
     Dotenv.load
-    DATA = DB.open ENV["DATABASE_URL"]
+    DATA = DB.open ENV["DATABASE_URL2"]
 
     cnn_time = DATA.scalar "SELECT NOW()"
     puts "Connected to DB at: #{cnn_time}"
